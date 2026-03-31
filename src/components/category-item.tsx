@@ -4,28 +4,24 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
+import { type IconName } from '@/src/constant/Category';
 
-export default function CategoryItem({ active = false }: { active?: boolean }) {
+export default function CategoryItem({ active = false, name, icon }: { active?: boolean, name: string , icon: IconName}) {
     return (
         <View style={styles.container}>
             <View style={[
                 styles.iconContainer,
                 { backgroundColor: active ? COLORS.primary : COLORS.gray },
-                active && { // TODO: not working is Android
-                    shadowColor: '#B8FFEA',
-                    shadowOpacity: 0.30,
-                    shadowOffset: { width: 0, height: 8 },
-                    shadowRadius: 20,
-                }
+                active &&  {boxShadow: '0px 8px 20px rgba(184, 255, 234, 0.3)', }
             ]}>
-                <Ionicons name="bag-outline" color={COLORS.light} size={16} />
+                <Ionicons name={icon} color={COLORS.light} size={16} />
             </View>
             <Text
                 style={[
                     styles.text,
                     { color: active ? COLORS.primary : COLORS.text }
                 ]}
-            >category-item</Text>
+            >{name}</Text>
         </View>
     )
 }

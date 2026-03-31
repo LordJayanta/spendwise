@@ -5,13 +5,33 @@ import { COLORS } from '@/src/constant/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+
+import { CATEGORIES } from '@/src/constant/Category'
+
 
 export default function Create() {
   const [Amount, setAmount] = useState('');
-  const [Category, setCategory] = useState('');
+  const [SelectedCategory, setSelectedCategory] = useState('');
   const [Title, setTitle] = useState('');
   const [Note, setNote] = useState('');
+
+  const handleAddTransaction = () => {
+    // Validation
+    setAmount(val => val.replace(/[^0-9]/g, ''));
+
+    if (!Amount) Alert.alert('Error', 'Please enter an amount.');
+    if (!SelectedCategory) Alert.alert('Error', 'Please select a category.');
+    if (!Title) Alert.alert('Error', 'Please enter a title.');
+
+
+    // log:
+    console.log('Amount:', Amount);
+    console.log('Selected Category:', SelectedCategory);
+    console.log('Title:', Title);
+    console.log('Note:', Note);
+
+  };
 
   return (
     <View style={createPageStyles.container}>
@@ -41,7 +61,7 @@ export default function Create() {
           </View>
 
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleAddTransaction()}>
           <Text style={[commonStyles.clickableBtn, { textTransform: "uppercase" }]}>Save</Text>
         </TouchableOpacity>
       </View>
@@ -66,7 +86,7 @@ export default function Create() {
                 maxLength={8}
                 keyboardType="numeric"
                 value={Amount}
-                onChangeText={setAmount}
+                onChangeText={(text) => setAmount(text.replace(/[^0-9]/g, ''))} // remove non-numeric characters
               />
             </View>
           </View>
@@ -83,11 +103,15 @@ export default function Create() {
               // style={createPageStyles.categoryContainer}
               showsHorizontalScrollIndicator={false}
             >
-              <CategoryItem />
-              <CategoryItem active />
-              <CategoryItem />
-              <CategoryItem />
-              <CategoryItem />
+              {CATEGORIES.map((category) => (
+                <TouchableOpacity key={category.id} onPress={() => setSelectedCategory(category.id)}>
+                  <CategoryItem
+                    active={category.id === SelectedCategory}
+                    name={category.name}
+                    icon={category.icon}
+                  />
+                </TouchableOpacity>
+              ))}
             </ScrollView>
           </View>
 
@@ -103,6 +127,7 @@ export default function Create() {
               <TextInput
                 placeholder='Title? What was for did ?'
                 placeholderTextColor={'#C4C5D9'}
+                style={{ color: '#C4C5D9' }}
                 cursorColor={COLORS.primary}
                 maxLength={20}
                 value={Title}
@@ -118,6 +143,7 @@ export default function Create() {
               </View>
               <TextInput
                 placeholder='Note Of your Transaction ? (Optional)'
+                style={{ color: '#C4C5D9' }}
                 placeholderTextColor={'#C4C5D9'}
                 cursorColor={COLORS.primary}
                 maxLength={20}
@@ -130,7 +156,7 @@ export default function Create() {
 
 
           <View style={createPageStyles.createButtonContainer}>
-            <TouchableOpacity style={commonStyles.primaryButton}>
+            <TouchableOpacity style={commonStyles.primaryButton} onPress={() => handleAddTransaction()}>
               <Text style={[commonStyles.clickableBtn, { textTransform: "uppercase", color: COLORS.light }]}>Save</Text>
             </TouchableOpacity>
           </View>

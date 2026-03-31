@@ -1,30 +1,34 @@
 import { Ionicons, } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { CATEGORIES_ICONS } from '../constant/Category';
 import { COLORS } from '../constant/colors';
+import { TransactionType } from '../types/types';
 
-export default function TransactionItem() {
+export default function TransactionItem({ data }: { data: TransactionType }) {
+  const isIncome = data.amount > 0;
+  const iconName = CATEGORIES_ICONS[data.category]
   return (
     <View style={styles.containter}>
       <View style={styles.subContainter}>
         <View style={[styles.iconContainer, { backgroundColor: "#353534" }]}>
-          <Ionicons name="cash" color={COLORS.light} size={20} />
+          <Ionicons name={iconName} color={COLORS.light} size={20} />
         </View>
 
         <View style={styles.TextContainer}>
-          <Text style={styles.TransactionTitle}>Salary</Text>
+          <Text style={styles.TransactionTitle}>{data.title}</Text>
           <View style={styles.subTextContainer}>
-            <Text style={styles.subText}>$199</Text>
+            <Text style={styles.subText}>${data.date}</Text>
             <View style={styles.dot}>
               <Ionicons name="ellipse" color={COLORS.text} size={4.75} />
             </View>
-            <Text style={styles.subText}>6:00 AM</Text>
+            <Text style={styles.subText}>{data.time}</Text>
           </View>
         </View>
       </View>
 
 
-      <Text style={[styles.TransactionAmount, true ? { color: '#4AE183' } : { color: '#FFB4A9' }]}>{true ? '+' : '-'} $199</Text>
+      <Text style={[styles.TransactionAmount, isIncome ? { color: '#4AE183' } : { color: '#FFB4A9' }]}>{isIncome ? '+' : '-'} ${Math.abs(data.amount)}</Text>
     </View>
   )
 }

@@ -1,13 +1,27 @@
 import { commonStyles } from "@/assets/styles/common.style";
 import { homeStyles } from "@/assets/styles/home.style";
 import AddButton from "@/src/components/add-button";
+import NoTransactionsFound from "@/src/components/no-transactions-found";
 import TransactionItem from "@/src/components/transaction-item";
 import { COLORS } from "@/src/constant/colors";
+import { TransactionType } from "@/src/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
+
+
 export default function Index() {
+  const demoTransactions: TransactionType[] = [
+    { id: 1, title: "Salary", amount: 50000, date: "2023-01-01", time: "6:00 AM", category: "Salary" },
+    { id: 2, title: "Groceries", amount: -166, date: "2023-01-01", time: "6:00 AM", category: "Groceries" },
+    { id: 3, title: "Entertainment", amount: -199, date: "2023-01-01", time: "6:00 AM", category: "Entertainment" },
+    { id: 4, title: "Clothing", amount: -599, date: "2023-01-01", time: "6:00 AM", category: "Clothing" },
+    { id: 5, title: "Health", amount: -99, date: "2023-01-01", time: "6:00 AM", category: "Health" },
+    { id: 6, title: "Travel", amount: -300, date: "2023-01-01", time: "6:00 AM", category: "Travel" },
+    { id: 7, title: "Food", amount: -80, date: "2023-01-01", time: "6:00 AM", category: "Food" },
+  ]
+  
   return (
     <View style={[homeStyles.container, { backgroundColor: COLORS.natural, position: "relative" }]} >
 
@@ -75,19 +89,20 @@ export default function Index() {
             </TouchableOpacity>
           </View>
 
-          
+
 
           <FlatList
-            data={Array.from({ length: 20 })}
-            renderItem={() => <TransactionItem />}
+            data={demoTransactions}
+            renderItem={({ item }) => <TransactionItem data={item} />}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={homeStyles.TransactionsContentContainer}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={<NoTransactionsFound />}
           />
         </LinearGradient>
       </View>
 
-  
+
       <View style={{
         position: "absolute",
         bottom: 40, // 40
