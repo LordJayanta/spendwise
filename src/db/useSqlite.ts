@@ -1,6 +1,7 @@
-import { db } from "./database";
+import { db, initDb } from "./database";
 
 export const useSqlite = () => {
+  initDb();
   return {
     db,
     addTransaction,
@@ -78,9 +79,7 @@ export const updateTransactionById = async (title: string, id: number) => {
 // 4. DELETE
 export const deleteTransactionById = async (id: number) => {
   try {
-    const result = await db.runAsync(`DELETE FROM transactions WHERE id = ?;`, [
-      id,
-    ]);
+    await db.runAsync(`DELETE FROM transactions WHERE id = ?;`, [id]);
     return;
   } catch (error) {
     console.error("deleteTransactionById: ", error);
