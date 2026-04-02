@@ -8,29 +8,44 @@ import React, { useState } from 'react'
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { CATEGORIES } from '@/src/constant/Category'
+import { useSqlite } from '@/src/db/useSqlite'
 
 
 export default function Create() {
-  const [Amount, setAmount] = useState('');
-  const [SelectedCategory, setSelectedCategory] = useState('');
-  const [Title, setTitle] = useState('');
-  const [Note, setNote] = useState('');
+  const [Amount, setAmount] = useState<string>('');
+  const [SelectedCategory, setSelectedCategory] = useState<string>('');
+  const [Title, setTitle] = useState<string>('');
+  const [Note, setNote] = useState<string>('');
+
+  const { addTransaction } = useSqlite();
 
   const handleAddTransaction = () => {
+    const isIncome = SelectedCategory === "Income" || SelectedCategory === "Salary";
+
     // Validation
     setAmount(val => val.replace(/[^0-9]/g, ''));
+    const formatedAmount = isIncome ? Math.abs(Number(Amount)) : -Math.abs(Number(Amount));
 
-    if (!Amount) Alert.alert('Error', 'Please enter an amount.');
-    if (!SelectedCategory) Alert.alert('Error', 'Please select a category.');
-    if (!Title) Alert.alert('Error', 'Please enter a title.');
+    if (!Amount) return Alert.alert('Error', 'Please enter an amount.');
+    if (!SelectedCategory) return Alert.alert('Error', 'Please select a category.');
+    if (!Title) return Alert.alert('Error', 'Please enter a title.');
+    
 
 
-    // log:
-    console.log('Amount:', Amount);
-    console.log('Selected Category:', SelectedCategory);
-    console.log('Title:', Title);
-    console.log('Note:', Note);
+    // add transaction on db
+    addTransaction({
+      title: Title,
+      amount: formatedAmount,
+      category: SelectedCategory
+    });
 
+    // reset form
+    setAmount('');
+    setSelectedCategory('');
+    setTitle('');
+    setNote('');
+
+    router.push("/");
   };
 
   return (
