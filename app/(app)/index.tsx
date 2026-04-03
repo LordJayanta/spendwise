@@ -4,6 +4,7 @@ import NoTransactionsFound from "@/src/components/no-transactions-found";
 import TransactionItem from "@/src/components/transaction-item";
 import { COLORS } from "@/src/constant/colors";
 import { useSqlite } from "@/src/db/useSqlite";
+import { SummaryType } from "@/src/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
@@ -13,8 +14,13 @@ import { FlatList, Text, View } from "react-native";
 
 export default function Index() {
   const [data, setData] = useState([]);
+  const [summary, setSummary] = useState<SummaryType>({
+    balance: 0,
+    income: 0,
+    expence: 0,
+  });
 
-  const { getAllTransactions } = useSqlite();
+  const { getAllTransactions, getSummary } = useSqlite();
 
   useEffect(() => {
     const loadTransactions = async () => {
@@ -23,6 +29,15 @@ export default function Index() {
     };
 
     loadTransactions();
+  }, []);
+
+  useEffect(() => {
+    const loadSummary = async () => {
+      const res: any = await getSummary();
+      setSummary(res);
+    };
+    
+    loadSummary();
   }, []);
 
 
@@ -38,8 +53,8 @@ export default function Index() {
             fontSize: 60,
             lineHeight: 60,
             fontWeight: 600, // "semibold"
-          }}>12350</Text>
-          <Text style={{ color: COLORS.light, fontSize: 24 }}>.50</Text>
+          }}>{Math.abs(summary.balance)}</Text>
+          {/* <Text style={{ color: COLORS.light, fontSize: 24 }}>.50</Text> */}
         </View>
 
         <View>
@@ -58,7 +73,7 @@ export default function Index() {
             </View>
             <View style={homeStyles.StatsTextContainer}>
               <Text style={homeStyles.StatsText}>INFLOW</Text>
-              <Text style={homeStyles.StatsAmountText}>+$4700</Text>
+              <Text style={homeStyles.StatsAmountText}>+${Math.abs(summary.income)}</Text>
             </View>
           </LinearGradient>
           <LinearGradient
@@ -72,7 +87,7 @@ export default function Index() {
             </View>
             <View style={homeStyles.StatsTextContainer}>
               <Text style={homeStyles.StatsText}>OUTFLOW</Text>
-              <Text style={homeStyles.StatsAmountText}>-$4700</Text>
+              <Text style={homeStyles.StatsAmountText}>-${Math.abs(summary.expence)}</Text>
             </View>
           </LinearGradient>
         </View>
