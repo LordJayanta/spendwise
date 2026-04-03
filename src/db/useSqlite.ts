@@ -1,15 +1,40 @@
+import { SummaryType } from "../types/types";
 import { db, initDb } from "./database";
 
 export const useSqlite = () => {
   initDb();
   return {
     db,
+    getSummary,
     addTransaction,
     getAllTransactions,
     getTransactionById,
     updateTransactionById,
     deleteTransactionById,
   };
+};
+
+// Get Summary of all transactions
+export const getSummary = async () => {
+  type resType = { value: number } | null;
+
+  const balance: resType = await db.getFirstAsync(
+    `SELECT COALESCE(SUM(amount), 0) AS value FROM transactions;`,
+  );
+  const income: resType = await db.getFirstAsync(
+    `SELECT COALESCE(SUM(amount), 0) AS value FROM transactions WHERE amount > 0;`,
+  );
+  const expence: resType = await db.getFirstAsync(
+    `SELECT COALESCE(SUM(amount), 0) AS value FROM transactions WHERE amount < 0;`,
+  );
+
+  const Summary: SummaryType = {
+    balance: Number(balance?.value),
+    income: Number(income?.value),
+    expence: Number(expence?.value),
+  };
+
+  return Summary;
 };
 
 // 1. CREATE (Insert)

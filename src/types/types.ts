@@ -7,3 +7,9 @@ export type TransactionType = {
   created_at?: string;
   category: CategoryKey;
 };
+
+export type SummaryType = {
+  balance: number;
+  income: number;
+  expence: number;
+};
