@@ -1,27 +1,31 @@
-import { commonStyles } from "@/assets/styles/common.style";
 import { homeStyles } from "@/assets/styles/home.style";
 import AddButton from "@/src/components/add-button";
 import NoTransactionsFound from "@/src/components/no-transactions-found";
 import TransactionItem from "@/src/components/transaction-item";
 import { COLORS } from "@/src/constant/colors";
-import { TransactionType } from "@/src/types/types";
+import { useSqlite } from "@/src/db/useSqlite";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, Text, View } from "react-native";
 
 
 
 export default function Index() {
-  const demoTransactions: TransactionType[] = [
-    { id: 1, title: "Salary", amount: 50000, date: "2023-01-01", time: "6:00 AM", category: "Salary" },
-    { id: 2, title: "Groceries", amount: -166, date: "2023-01-01", time: "6:00 AM", category: "Groceries" },
-    { id: 3, title: "Entertainment", amount: -199, date: "2023-01-01", time: "6:00 AM", category: "Entertainment" },
-    { id: 4, title: "Clothing", amount: -599, date: "2023-01-01", time: "6:00 AM", category: "Clothing" },
-    { id: 5, title: "Health", amount: -99, date: "2023-01-01", time: "6:00 AM", category: "Health" },
-    { id: 6, title: "Travel", amount: -300, date: "2023-01-01", time: "6:00 AM", category: "Travel" },
-    { id: 7, title: "Food", amount: -80, date: "2023-01-01", time: "6:00 AM", category: "Food" },
-  ]
-  
+  const [data, setData] = useState([]);
+
+  const { getAllTransactions } = useSqlite();
+
+  useEffect(() => {
+    const loadTransactions = async () => {
+      const res: any = await getAllTransactions();
+      setData(res ?? []);
+    };
+
+    loadTransactions();
+  }, []);
+
+
   return (
     <View style={[homeStyles.container, { backgroundColor: COLORS.natural, position: "relative" }]} >
 
@@ -84,15 +88,15 @@ export default function Index() {
           {/* TRANSACTIONS HEADER */}
           <View style={homeStyles.TransactionsHeaderContainer}>
             <Text style={homeStyles.TransactionsHeaderText}>Recent Transactions</Text>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <Text style={commonStyles.clickableBtn}>VIEW ALL</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
 
 
           <FlatList
-            data={demoTransactions}
+            data={data}
             renderItem={({ item }) => <TransactionItem data={item} />}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={homeStyles.TransactionsContentContainer}

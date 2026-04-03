@@ -4,7 +4,6 @@ export type TransactionType = {
   id: number;
   title: string;
   amount: number;
-  date: string;
-  time: string;
+  created_at?: string;
   category: CategoryKey;
 };

@@ -4,10 +4,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import { CATEGORIES_ICONS } from '../constant/Category';
 import { COLORS } from '../constant/colors';
 import { TransactionType } from '../types/types';
+import { formatTime } from '../uitle/formatTime';
 
 export default function TransactionItem({ data }: { data: TransactionType }) {
   const isIncome = data.amount > 0;
   const iconName = CATEGORIES_ICONS[data.category]
+
+  const [date, time] = String(data?.created_at).split(' ');
+
   return (
     <View style={styles.containter}>
       <View style={styles.subContainter}>
@@ -18,11 +22,11 @@ export default function TransactionItem({ data }: { data: TransactionType }) {
         <View style={styles.TextContainer}>
           <Text style={styles.TransactionTitle}>{data.title}</Text>
           <View style={styles.subTextContainer}>
-            <Text style={styles.subText}>${data.date}</Text>
+            <Text style={styles.subText}>${date}</Text>
             <View style={styles.dot}>
               <Ionicons name="ellipse" color={COLORS.text} size={4.75} />
             </View>
-            <Text style={styles.subText}>{data.time}</Text>
+            <Text style={styles.subText}>{formatTime(time)}</Text>
           </View>
         </View>
       </View>
