@@ -2,17 +2,20 @@ import { homeStyles } from "@/assets/styles/home.style";
 import AddButton from "@/src/components/add-button";
 import NoTransactionsFound from "@/src/components/no-transactions-found";
 import TransactionItem from "@/src/components/transaction-item";
+import TransactionActions from "@/src/components/TransactionActions";
 import { COLORS } from "@/src/constant/colors";
 import { useSqlite } from "@/src/db/useSqlite";
-import { SummaryType } from "@/src/types/types";
+import { SummaryType, TransactionType } from "@/src/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 
 
 export default function Index() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTransactionId, setSelectedTransactionId] = useState<number | null>(null);
   const [data, setData] = useState([]);
   const [summary, setSummary] = useState<SummaryType>({
     balance: 0,
@@ -29,20 +32,28 @@ export default function Index() {
     };
 
     loadTransactions();
-  }, []);
+  }, [isModalOpen]);
 
   useEffect(() => {
     const loadSummary = async () => {
       const res: any = await getSummary();
       setSummary(res);
     };
-    
+
     loadSummary();
-  }, []);
+  }, [isModalOpen]);
 
 
   return (
     <View style={[homeStyles.container, { backgroundColor: COLORS.natural, position: "relative" }]} >
+      <TransactionActions
+      data={{id: selectedTransactionId}}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedTransactionId(null);
+        }}
+      />
 
       {/* HERO SECTION */}
       <View>
@@ -112,7 +123,14 @@ export default function Index() {
 
           <FlatList
             data={data}
-            renderItem={({ item }) => <TransactionItem data={item} />}
+            renderItem={({ item }: { item: TransactionType }) => (
+              <TouchableOpacity onLongPress={() => {
+                setIsModalOpen(!isModalOpen);
+                setSelectedTransactionId(item.id);
+              }}>
+                <TransactionItem data={item} />
+              </TouchableOpacity>
+            )}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={homeStyles.TransactionsContentContainer}
             showsVerticalScrollIndicator={false}
@@ -122,13 +140,13 @@ export default function Index() {
       </View>
 
 
-      <View style={{
+      {!isModalOpen &&<View style={{
         position: "absolute",
         bottom: 40, // 40
         right: 32
       }}>
         <AddButton />
-      </View>
+      </View>}
     </View>
   );
 }
