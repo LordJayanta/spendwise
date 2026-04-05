@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+import { router } from 'expo-router'
 import React from 'react'
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../constant/colors'
@@ -20,6 +21,21 @@ export default function TransactionActions({ data, onClose, isOpen }: Props) {
                     <LinearGradient
                     colors={['transparent', '#000000']}
                     style={styles.actionContainer}>
+                        <TouchableOpacity 
+                        onPress={async () => {
+                            onClose()
+                            router.push({
+                                pathname: '/create',
+                                params: {
+                                    id: JSON.stringify(data?.id)
+                                },
+                            })
+                        }} 
+                        activeOpacity={0.3} 
+                        style={[styles.iconContainer, { backgroundColor: COLORS.gray, width: 56, height: 56  }]}
+                        >
+                            <Ionicons name="pencil-sharp" color={COLORS.tertiary} size={18}/>
+                        </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={async () => {
                             await deleteTransactionById(data?.id);

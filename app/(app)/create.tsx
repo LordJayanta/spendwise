@@ -3,15 +3,19 @@ import { createPageStyles } from '@/assets/styles/create.style'
 import CategoryItem from '@/src/components/category-item'
 import { COLORS } from '@/src/constant/colors'
 import { Ionicons } from '@expo/vector-icons'
-import { router } from 'expo-router'
-import React, { useState } from 'react'
+import { router, useLocalSearchParams } from 'expo-router'
+import React, { useEffect, useState } from 'react'
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { CATEGORIES } from '@/src/constant/Category'
-import { useSqlite } from '@/src/db/useSqlite'
+import { getTransactionById, updateTransactionById, useSqlite } from '@/src/db/useSqlite'
 
 
 export default function Create() {
+
+  const { id } = useLocalSearchParams();
+
+
   const [Amount, setAmount] = useState<string>('');
   const [SelectedCategory, setSelectedCategory] = useState<string>('');
   const [Title, setTitle] = useState<string>('');
@@ -19,7 +23,7 @@ export default function Create() {
 
   const { addTransaction } = useSqlite();
 
-  const handleAddTransaction = () => {
+  const handleAddTransaction = async () => {
     const isIncome = SelectedCategory === "Income" || SelectedCategory === "Salary";
 
     // Validation
@@ -29,15 +33,25 @@ export default function Create() {
     if (!Amount) return Alert.alert('Error', 'Please enter an amount.');
     if (!SelectedCategory) return Alert.alert('Error', 'Please select a category.');
     if (!Title) return Alert.alert('Error', 'Please enter a title.');
-    
 
 
-    // add transaction on db
-    addTransaction({
-      title: Title,
-      amount: formatedAmount,
-      category: SelectedCategory
-    });
+
+    if (!id) {
+      // add transaction on db
+      await addTransaction({
+        title: Title,
+        amount: formatedAmount,
+        category: SelectedCategory
+      });
+    } else {
+      // update transaction on db
+      await updateTransactionById({
+        title: Title,
+        amount: formatedAmount,
+        category: SelectedCategory,
+        id: Number(id)
+      });
+    }
 
     // reset form
     setAmount('');
@@ -48,6 +62,19 @@ export default function Create() {
     router.push("/");
   };
 
+  useEffect(() => {
+    const loadData = async () => {
+      if (id) {
+        const res: any = await getTransactionById(Number(id));
+
+        setAmount(String(Math.abs(res?.amount)));
+        setSelectedCategory(res?.category);
+        setTitle(res?.title);
+        setNote(res?.note);
+      }
+    }
+    loadData()
+  }, [id])
   return (
     <View style={createPageStyles.container}>
       {/* TAB */}
