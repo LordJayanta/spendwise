@@ -89,11 +89,21 @@ export const getTransactionById = async (id: number) => {
 };
 
 // 3. UPDATE
-export const updateTransactionById = async (title: string, id: number) => {
+export const updateTransactionById = async ({
+  title,
+  category,
+  amount,
+  id,
+}: {
+  title: string;
+  category: string;
+  amount: number;
+  id: number;
+}) => {
   try {
     const result = await db.runAsync(
-      `UPDATE transactions SET title = ? WHERE id = ?;`,
-      [id],
+      `UPDATE transactions SET title = ? , category = ?, amount = ? WHERE id = ?;`,
+      [title, category, amount, id],
     );
     return result.lastInsertRowId;
   } catch (error) {
