@@ -42,16 +42,18 @@ export const addTransaction = async ({
   title,
   amount,
   category,
+  note,
 }: {
   title: string;
   amount: number;
   category: string;
+  note: string;
 }) => {
   try {
     // ALWAYS use '?' for values to prevent SQL injection and syntax errors!
     const result = await db.runAsync(
-      `INSERT INTO transactions (title, amount, category) VALUES (?, ?, ?);`,
-      [title, amount, category],
+      `INSERT INTO transactions (title, amount, category, note) VALUES (?, ?, ?, ?);`,
+      [title, amount, category, note],
     );
 
     console.log("createTransaction: ", result);
@@ -94,16 +96,18 @@ export const updateTransactionById = async ({
   category,
   amount,
   id,
+  note,
 }: {
   title: string;
   category: string;
   amount: number;
   id: number;
+  note: string;
 }) => {
   try {
     const result = await db.runAsync(
-      `UPDATE transactions SET title = ? , category = ?, amount = ? WHERE id = ?;`,
-      [title, category, amount, id],
+      `UPDATE transactions SET title = ? , category = ?, amount = ?, note = ? WHERE id = ?;`,
+      [title, category, amount, note, id],
     );
     return result.lastInsertRowId;
   } catch (error) {

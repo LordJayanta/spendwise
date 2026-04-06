@@ -41,7 +41,8 @@ export default function Create() {
       await addTransaction({
         title: Title,
         amount: formatedAmount,
-        category: SelectedCategory
+        category: SelectedCategory,
+        note: Note
       });
     } else {
       // update transaction on db
@@ -49,7 +50,8 @@ export default function Create() {
         title: Title,
         amount: formatedAmount,
         category: SelectedCategory,
-        id: Number(id)
+        id: Number(id),
+        note: Note
       });
     }
 
