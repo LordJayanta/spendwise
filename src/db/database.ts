@@ -2,6 +2,9 @@ import * as SQLite from "expo-sqlite";
 
 export const db = SQLite.openDatabaseSync("sw_transactions.db");
 
+// Enable WAL mode
+await db.execAsync("PRAGMA journal_mode = WAL;");
+
 export const initDb = async () => {
   try {
     const version = await db.getFirstAsync<{ user_version: number }>(
