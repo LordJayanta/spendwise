@@ -2,30 +2,33 @@ import * as SQLite from "expo-sqlite";
 
 export const db = SQLite.openDatabaseSync("sw_transactions.db");
 
-// Enable WAL mode
-await db.execAsync("PRAGMA journal_mode = WAL;");
-
 export const initDb = async () => {
   try {
+    // Enable WAL mode when available, but don't fail if the platform does not support it.
+    try {
+      await db.execAsync("PRAGMA journal_mode = WAL;");
+    } catch (error) {
+      console.warn("WAL mode unavailable, continuing without it.", error);
+    }
+
+    // Always ensure the transactions table exists before running any queries.
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS transactions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          amount REAL NOT NULL,
+          category TEXT NOT NULL,
+          note TEXT,
+          created_at TEXT DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
     const version = await db.getFirstAsync<{ user_version: number }>(
       "PRAGMA user_version;",
     );
 
-    // if version is 0, this is the first time the app has been opened,
-    // so we need to create the table
-    if (version?.user_version === 0) {
-      db.execSync(`
-        CREATE TABLE IF NOT EXISTS transactions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            amount REAL NOT NULL,
-            category TEXT NOT NULL,
-            note TEXT,
-            created_at TEXT DEFAULT CURRENT_TIMESTAMP
-        );
-    `);
-
-      // Set version to 1 so this block never runs again
+    const currentVersion = version?.user_version ?? 0;
+    if (currentVersion === 0) {
       await db.runAsync("PRAGMA user_version = 1;");
     }
 
@@ -43,6 +46,7 @@ export const initDb = async () => {
     //   await db.runAsync(`PRAGMA user_version = <number_next_version>;`);
     // }
   } catch (error) {
-    console.error("Error creating db table", error);
+    console.error("Error initializing database", error);
+    throw error;
   }
 };
