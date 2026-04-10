@@ -4,8 +4,8 @@ import NoTransactionsFound from "@/src/components/no-transactions-found";
 import TransactionItem from "@/src/components/transaction-item";
 import TransactionActions from "@/src/components/TransactionActions";
 import { COLORS } from "@/src/constant/colors";
-import { useSqlite } from "@/src/db/useSqlite";
-import { SummaryType, TransactionType } from "@/src/types/types";
+import { useTransaction } from "@/src/context/TransactionContext";
+import { TransactionType } from "@/src/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
@@ -14,40 +14,21 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 
 export default function Index() {
+  const { summary, transactions, LoadDatabase } = useTransaction();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<number | null>(null);
-  const [data, setData] = useState([]);
-  const [summary, setSummary] = useState<SummaryType>({
-    balance: 0,
-    income: 0,
-    expence: 0,
-  });
-
-  const { getAllTransactions, getSummary } = useSqlite();
-
+ 
   useEffect(() => {
-    const loadTransactions = async () => {
-      const res: any = await getAllTransactions();
-      setData(res ?? []);
-    };
-
-    loadTransactions();
+    LoadDatabase();
   }, [isModalOpen]);
 
-  useEffect(() => {
-    const loadSummary = async () => {
-      const res: any = await getSummary();
-      setSummary(res);
-    };
-
-    loadSummary();
-  }, [isModalOpen]);
-
+  
 
   return (
     <View style={[homeStyles.container, { backgroundColor: COLORS.natural, position: "relative" }]} >
       <TransactionActions
-      data={{id: selectedTransactionId}}
+        data={{ id: selectedTransactionId }}
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
@@ -122,7 +103,7 @@ export default function Index() {
 
 
           <FlatList
-            data={data}
+            data={transactions}
             renderItem={({ item }: { item: TransactionType }) => (
               <TouchableOpacity onLongPress={() => {
                 setIsModalOpen(!isModalOpen);
@@ -140,7 +121,7 @@ export default function Index() {
       </View>
 
 
-      {!isModalOpen &&<View style={{
+      {!isModalOpen && <View style={{
         position: "absolute",
         bottom: 40, // 40
         right: 32

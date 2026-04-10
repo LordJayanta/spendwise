@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { SummaryType } from "../types/types";
+import { SummaryType, TransactionType } from "../types/types";
 import { db, initDb } from "./database";
 
 export const useSqlite = () => {
@@ -79,7 +79,7 @@ export const addTransaction = async ({
 export const getAllTransactions = async () => {
   try {
     await LoadDatabase();
-    const result = await db.getAllAsync(
+    const result: TransactionType[] = await db.getAllAsync(
       `SELECT * FROM transactions ORDER BY id DESC;`,
     );
     console.log("getAllTransactions: ", result);
