@@ -7,7 +7,10 @@ type contextType = {
     toggleLoading: () => void,
     summary: SummaryType,
     transactions: TransactionType[],
-    LoadDatabase: () => void
+    LoadDatabase: () => void,
+    addTransaction: (transaction: TransactionType) => void,
+    updateTransaction: (transaction: TransactionType) => void,
+    deleteTransaction: (id: TransactionType['id']) => void
 }
 
 export const TransactionContext = createContext<contextType | undefined>(undefined);
@@ -21,17 +24,108 @@ export const TransactionProvider = ({ children }: { children: React.ReactNode })
 
     const toggleLoading = () => setIsLoading(!isLoading);
 
+    const addIncome = async (amount: number) => setSummary(prev => ({
+        ...prev,
+        income: prev.income + amount,
+        balance: prev.balance + amount
+    }));
+
+    const addExpence = async (amount: number) => setSummary(prev => ({
+        ...prev,
+        expence: prev.expence + amount,
+        balance: prev.balance - amount
+    }));
+
+
+    const updateSummary = async (value: number | SummaryType) => {
+        /**
+         * Updates the summary state.
+         *
+         * Usage:
+         * 1. Pass a number to update via amount:
+         *    - Positive → treated as income
+         *    - Negative → treated as expense
+         *    Example: updateSummary(1000)
+         *
+         * 2. Pass a SummaryType object to replace the summary:
+         *    Example: updateSummary({
+         *      balance: 1000,
+         *      expence: 1000,
+         *      income: 1000
+         *    })
+         */
+        if (typeof value === 'number') {
+            if (value > 0) addIncome(Math.abs(value));
+            else addExpence(Math.abs(value));
+        } else {
+            setSummary(value);
+        }
+    }
+
     const LoadDatabase = async () => {
         setIsLoading(true);
         const summary = await sqlite.getSummary();
         const transactions: TransactionType[] | undefined = await sqlite.getAllTransactions();
         setSummary(summary);
-        if (typeof transactions !== 'undefined') setTransactions(transactions);
+        if (typeof transactions !== 'undefined') setTransactions(transactions ?? []);
         setIsLoading(false);
     }
 
+    const addTransaction = async (transaction: TransactionType) => {
+        // Add to database
+        const resultId = await sqlite.addTransaction({
+            title: transaction.title,
+            amount: transaction.amount,
+            category: transaction.category,
+            note: String(transaction.note)
+        });
+
+        // update Context 
+        if (resultId) {
+            transaction.id = Number(resultId);
+            setTransactions(prev => [transaction, ...prev]);
+
+            updateSummary(transaction.amount);
+        }
+    }
+
+    const updateTransaction = async (transaction: TransactionType) => {
+        // update to database
+        const result: number | undefined = await sqlite.updateTransactionById({
+            title: transaction.title,
+            amount: transaction.amount,
+            category: transaction.category,
+            id: Number(transaction.id),
+            note: String(transaction.note)
+        });
+
+        if (typeof result === 'number' && result > 0) {
+            updateSummary(-Number(transactions.find(t => t.id === transaction.id)?.amount))
+            setTransactions(prev => prev.map(t => t.id === transaction.id ? transaction : t));
+
+            // const getSummary = await sqlite.getSummary();
+            // updateSummary(getSummary);
+        }
+    }
+
+    const deleteTransaction = async (id: TransactionType['id']) => {
+        sqlite.deleteTransactionById(id).then(() => {
+            updateSummary(-Number(transactions.find(t => t.id === id)?.amount));
+            setTransactions(prev => prev.filter(t => t.id !== id));
+        });
+    }
+
     return (
-        <TransactionContext.Provider value={{ isLoading, toggleLoading, summary, transactions, LoadDatabase }}>
+        <TransactionContext.Provider value={{
+            isLoading,
+            toggleLoading,
+            summary,
+            transactions,
+            LoadDatabase,
+            addTransaction,
+            updateTransaction,
+            deleteTransaction
+        }}>
             {children}
         </TransactionContext.Provider>
     )

@@ -7,8 +7,9 @@ import { router, useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
-import { CATEGORIES } from '@/src/constant/Category'
-import { getTransactionById, updateTransactionById, useSqlite } from '@/src/db/useSqlite'
+import { CATEGORIES, CategoryKey } from '@/src/constant/Category'
+import { useTransaction } from '@/src/context/TransactionContext'
+import { getTransactionById } from '@/src/db/useSqlite'
 
 
 export default function Create() {
@@ -21,7 +22,7 @@ export default function Create() {
   const [Title, setTitle] = useState<string>('');
   const [Note, setNote] = useState<string>('');
 
-  const { addTransaction } = useSqlite();
+  const { addTransaction, updateTransaction } = useTransaction();
 
   const handleAddTransaction = async () => {
     const isIncome = SelectedCategory === "Income" || SelectedCategory === "Salary";
@@ -41,15 +42,16 @@ export default function Create() {
       await addTransaction({
         title: Title,
         amount: formatedAmount,
-        category: SelectedCategory,
-        note: Note
+        category: SelectedCategory as CategoryKey,
+        note: Note,
+        id: 0
       });
     } else {
       // update transaction on db
-      await updateTransactionById({
+      await updateTransaction({
         title: Title,
         amount: formatedAmount,
-        category: SelectedCategory,
+        category: SelectedCategory as CategoryKey,
         id: Number(id),
         note: Note
       });
