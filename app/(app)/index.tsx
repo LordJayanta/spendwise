@@ -8,22 +8,16 @@ import { useTransaction } from "@/src/context/TransactionContext";
 import { TransactionType } from "@/src/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 
 
 export default function Index() {
-  const { summary, transactions, LoadDatabase } = useTransaction();
+  const { summary, transactions } = useTransaction();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<number | null>(null);
- 
-  useEffect(() => {
-    LoadDatabase();
-  }, [isModalOpen]);
-
-  
 
   return (
     <View style={[homeStyles.container, { backgroundColor: COLORS.natural, position: "relative" }]} >
