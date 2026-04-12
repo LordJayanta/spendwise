@@ -9,7 +9,7 @@ import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'reac
 
 import { CATEGORIES, CategoryKey } from '@/src/constant/Category'
 import { useTransaction } from '@/src/context/TransactionContext'
-import { getTransactionById } from '@/src/db/useSqlite'
+import { TransactionType } from '@/src/types/types'
 
 
 export default function Create() {
@@ -22,7 +22,7 @@ export default function Create() {
   const [Title, setTitle] = useState<string>('');
   const [Note, setNote] = useState<string>('');
 
-  const { addTransaction, updateTransaction } = useTransaction();
+  const { transactions, addTransaction, updateTransaction } = useTransaction();
 
   const handleAddTransaction = async () => {
     const isIncome = SelectedCategory === "Income" || SelectedCategory === "Salary";
@@ -69,12 +69,14 @@ export default function Create() {
   useEffect(() => {
     const loadData = async () => {
       if (id) {
-        const res: any = await getTransactionById(Number(id));
+        const res: TransactionType | undefined   = transactions.find(t => t.id === Number(id));
 
-        setAmount(String(Math.abs(res?.amount)));
-        setSelectedCategory(res?.category);
-        setTitle(res?.title);
-        setNote(res?.note);
+        if (res) {
+          setAmount(String(Math.abs(res.amount)));
+          setSelectedCategory(res.category as CategoryKey);
+          setTitle(String(res.title));
+          setNote(String(res.note));
+        }
       }
     }
     loadData()
