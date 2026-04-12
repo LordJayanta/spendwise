@@ -100,6 +100,7 @@ export const TransactionProvider = ({ children }: { children: React.ReactNode })
         });
 
         if (typeof result === 'number' && result > 0) {
+            // TODO
             updateSummary(-Number(transactions.find(t => t.id === transaction.id)?.amount))
             setTransactions(prev => prev.map(t => t.id === transaction.id ? transaction : t));
 
@@ -110,7 +111,29 @@ export const TransactionProvider = ({ children }: { children: React.ReactNode })
 
     const deleteTransaction = async (id: TransactionType['id']) => {
         sqlite.deleteTransactionById(id).then(() => {
-            updateSummary(-Number(transactions.find(t => t.id === id)?.amount));
+            // TODO
+            const oldtransactionValue = transactions.find(t => t.id === id)?.amount as number
+            const isExpence = oldtransactionValue < 0;
+
+            if (isExpence) {
+                /**
+                 * if deleting an expence transaction,  just update the balance and expence
+                 */
+                setSummary((prev) => ({
+                    ...prev,
+                    balance: prev.balance+Math.abs(oldtransactionValue),
+                    expence: prev.expence-Math.abs(oldtransactionValue)
+                }))
+            } else {
+                /**
+                 * if deleting an income transaction, just update the balance and income
+                 */
+                setSummary((prev) => ({
+                    ...prev,
+                    balance: prev.balance-Math.abs(oldtransactionValue),
+                    income: prev.income-Math.abs(oldtransactionValue)
+                }))
+            }
             setTransactions(prev => prev.filter(t => t.id !== id));
         });
     }
