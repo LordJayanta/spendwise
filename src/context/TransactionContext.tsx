@@ -62,6 +62,7 @@ export const TransactionProvider = ({ children }: { children: React.ReactNode })
         }
     }
 
+
     const LoadDatabase = async () => {
         setIsLoading(true);
         const summary = await sqlite.getSummary();
@@ -100,59 +101,9 @@ export const TransactionProvider = ({ children }: { children: React.ReactNode })
         });
 
         if (typeof result === 'number' && result > 0) {
-            const oldtransactionValue = transactions.find(t => t.id === transaction?.id)?.amount as number
-            const isExpence = oldtransactionValue < 0;
-
-            /**
-             * expence to expence
-             */
-            if (isExpence && transaction.category !== 'Salary') {
-                /**
-                 * if deleting an expence transaction,  just update the balance and expence
-                 */
-                setSummary((prev) => ({
-                    ...prev,
-                    balance: (prev.balance + Math.abs(oldtransactionValue)) - Math.abs(transaction.amount),
-                    expence: (prev.expence - Math.abs(oldtransactionValue)) + Math.abs(transaction.amount)
-                }))
-            } /**
-             * income to income
-             */
-            else {
-                /**
-                 * if deleting an income transaction, just update the balance and income
-                 */
-                setSummary((prev) => ({
-                    ...prev,
-                    balance: (prev.balance - Math.abs(oldtransactionValue)) + Math.abs(transaction.amount),
-                    income: (prev.income - Math.abs(oldtransactionValue)) + Math.abs(transaction.amount)
-                }))
-            }
-            /**
-             * expence to income
-             */
-            if (isExpence && transaction.category === 'Salary') {
-                setSummary((prev) => ({
-                    ...prev,
-                    balance: (prev.balance + Math.abs(oldtransactionValue)) + Math.abs(transaction.amount),
-                    income: prev.income + Math.abs(transaction.amount),
-                    expence: prev.expence - Math.abs(oldtransactionValue)
-                }))
-            }
-            /**
-             * income to expence
-             */
-            else {
-                setSummary((prev) => ({
-                    ...prev,
-                    balance: (prev.balance - Math.abs(oldtransactionValue)) - Math.abs(transaction.amount),
-                    income: prev.income - Math.abs(oldtransactionValue),
-                    expence: prev.expence + Math.abs(transaction.amount)
-                }))
-            }
-
-
-
+            const summary = await sqlite.getSummary();
+            const transactions: TransactionType[] | undefined = await sqlite.getAllTransactions();
+            setSummary(summary);
             setTransactions(prev => prev.map(t => t.id === transaction.id ? transaction : t));
         }
     }
