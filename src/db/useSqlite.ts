@@ -39,9 +39,9 @@ export const getSummary = async () => {
   );
 
   const Summary: SummaryType = {
-    balance: Number(balance?.value),
-    income: Number(income?.value),
-    expence: Number(expence?.value),
+    balance: Math.abs(Number(balance?.value)),
+    income: Math.abs(Number(income?.value)),
+    expence: Math.abs(Number(expence?.value)),
   };
 
   return Summary;
