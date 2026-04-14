@@ -2,9 +2,10 @@ import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { router } from 'expo-router'
 import React from 'react'
-import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Alert, Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../constant/colors'
 import { useTransaction } from '../context/TransactionContext'
+import { TransactionType } from '../types/types'
 
 type Props = {
     data?: any,
@@ -13,6 +14,20 @@ type Props = {
 }
 export default function TransactionActions({ data, onClose, isOpen }: Props) {
     const { deleteTransaction } = useTransaction();
+
+    const handleDelete = async (data: TransactionType) => {
+        try {
+            Alert.alert("Delete Transaction", "Are you want to delete This Transaction ?", [
+                {text: "Cancle", style: "cancel"},
+                {text: "Delete", style: "default", onPress: async () => await deleteTransaction(data?.id)},
+            ])
+        } catch (error) {
+            Alert.alert("Error", "Failed to delete Transaction")
+            console.log("Error Deleting Transaction: ", error)
+        }
+        onClose();
+    }
+
     return (
         <View>
             <Modal animationType='slide' visible={isOpen} transparent >
@@ -37,10 +52,7 @@ export default function TransactionActions({ data, onClose, isOpen }: Props) {
                             <Ionicons name="pencil-sharp" color={COLORS.tertiary} size={18} />
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={async () => {
-                                await deleteTransaction(data?.id);
-                                onClose()
-                            }}
+                            onPress={()=> handleDelete(data)}
                             activeOpacity={0.3}
                             style={[styles.iconContainer, { backgroundColor: COLORS.gray, width: 56, height: 56 }]}
                         >
