@@ -102,7 +102,6 @@ export const TransactionProvider = ({ children }: { children: React.ReactNode })
 
         if (typeof result === 'number' && result > 0) {
             const summary = await sqlite.getSummary();
-            const transactions: TransactionType[] | undefined = await sqlite.getAllTransactions();
             setSummary(summary);
             setTransactions(prev => prev.map(t => t.id === transaction.id ? transaction : t));
         }

@@ -10,6 +10,7 @@ import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'reac
 import { CATEGORIES, CategoryKey } from '@/src/constant/Category'
 import { useTransaction } from '@/src/context/TransactionContext'
 import { TransactionType } from '@/src/types/types'
+import { formatDisplayTime } from '@/src/uitle/formatTime'
 
 
 export default function Create() {
@@ -21,6 +22,7 @@ export default function Create() {
   const [SelectedCategory, setSelectedCategory] = useState<string>('');
   const [Title, setTitle] = useState<string>('');
   const [Note, setNote] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
 
   const { transactions, addTransaction, updateTransaction } = useTransaction();
 
@@ -69,7 +71,7 @@ export default function Create() {
   useEffect(() => {
     const loadData = async () => {
       if (id) {
-        const res: TransactionType | undefined   = transactions.find(t => t.id === Number(id));
+        const res: TransactionType | undefined = transactions.find(t => t.id === Number(id));
 
         if (res) {
           setAmount(String(Math.abs(res.amount)));
@@ -98,11 +100,11 @@ export default function Create() {
                 <Ionicons name="calendar-outline" color={COLORS.text} size={18} />
               </View>
               <View style={createPageStyles.timeContainer}>
-                <Text style={createPageStyles.subText}>12:38 AM</Text>
+                <Text style={createPageStyles.subText}>{formatDisplayTime(selectedDate)}</Text>
                 <View style={createPageStyles.dot}>
                   <Ionicons name="ellipse" color={COLORS.text} size={4.75} />
                 </View>
-                <Text style={createPageStyles.subText}>Mar 27, 2026</Text>
+                <Text style={createPageStyles.subText}>{formatDisplayTime(selectedDate)}</Text>
               </View>
             </View>
 

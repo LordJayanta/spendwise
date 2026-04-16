@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { CATEGORIES_ICONS } from '../constant/Category';
 import { COLORS } from '../constant/colors';
 import { TransactionType } from '../types/types';
-import { formatTime } from '../uitle/formatTime';
+import { formatDisplayDate, formatDisplayTime } from '../uitle/formatTime';
 
 export default function TransactionItem({ data }: { data: TransactionType }) {
   const isIncome = data.amount > 0;
@@ -22,11 +22,12 @@ export default function TransactionItem({ data }: { data: TransactionType }) {
         <View style={styles.TextContainer}>
           <Text style={styles.TransactionTitle}>{data.title}</Text>
           <View style={styles.subTextContainer}>
-            <Text style={styles.subText}>${date}</Text>
+            <Text style={styles.subText}>{formatDisplayDate(new Date(String(data.created_at)))}</Text>
             <View style={styles.dot}>
               <Ionicons name="ellipse" color={COLORS.text} size={4.75} />
             </View>
-            <Text style={styles.subText}>{formatTime(time)}</Text>
+            <Text style={styles.subText}>{formatDisplayTime(new Date(String(data.created_at)))}</Text>
+            {/* <Text style={styles.subText}>{formatTime(time)}</Text> */}
           </View>
         </View>
       </View>
