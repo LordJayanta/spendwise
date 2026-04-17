@@ -9,15 +9,22 @@ import { TransactionType } from "@/src/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 
 
 
 export default function Index() {
-  const { summary, transactions } = useTransaction();
+  const { summary, transactions, LoadDatabase } = useTransaction();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<number | null>(null);
+  const [refreshTransactions, setRefreshTransactions] = useState<boolean>(false);
+
+  const handleRefreshTransactions = async () => {
+    setRefreshTransactions(true);
+    await LoadDatabase();
+    setRefreshTransactions(false);
+  }
 
   return (
     <View style={[homeStyles.container, { backgroundColor: COLORS.natural, position: "relative" }]} >
@@ -110,6 +117,7 @@ export default function Index() {
             contentContainerStyle={homeStyles.TransactionsContentContainer}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={<NoTransactionsFound />}
+            refreshControl={<RefreshControl refreshing={refreshTransactions} onRefresh={handleRefreshTransactions} />}
           />
         </LinearGradient>
       </View>

@@ -18,7 +18,7 @@ export default function TransactionActions({ data, onClose, isOpen }: Props) {
     const handleDelete = async (data: TransactionType) => {
         try {
             Alert.alert("Delete Transaction", "Are you want to delete This Transaction ?", [
-                {text: "Cancle", style: "cancel"},
+                {text: "Cancel", style: "destructive", onPress: onClose},
                 {text: "Delete", style: "default", onPress: async () => await deleteTransaction(data?.id)},
             ])
         } catch (error) {
