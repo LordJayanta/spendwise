@@ -10,7 +10,7 @@ import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'reac
 import { CATEGORIES, CategoryKey } from '@/src/constant/Category'
 import { useTransaction } from '@/src/context/TransactionContext'
 import { TransactionType } from '@/src/types/types'
-import { formatDisplayTime } from '@/src/uitle/formatTime'
+import { formatDisplayDate, formatDisplayTime } from '@/src/uitle/formatTime'
 
 
 export default function Create() {
@@ -78,6 +78,7 @@ export default function Create() {
           setSelectedCategory(res.category as CategoryKey);
           setTitle(String(res.title));
           setNote(String(res.note));
+          setSelectedDate(res.created_at && !isNaN(Date.parse(res.created_at)) ? new Date(res.created_at) : new Date())
         }
       }
     }
@@ -100,7 +101,7 @@ export default function Create() {
                 <Ionicons name="calendar-outline" color={COLORS.text} size={18} />
               </View>
               <View style={createPageStyles.timeContainer}>
-                <Text style={createPageStyles.subText}>{formatDisplayTime(selectedDate)}</Text>
+                <Text style={createPageStyles.subText}>{formatDisplayDate(selectedDate)}</Text>
                 <View style={createPageStyles.dot}>
                   <Ionicons name="ellipse" color={COLORS.text} size={4.75} />
                 </View>

@@ -10,7 +10,10 @@ export default function TransactionItem({ data }: { data: TransactionType }) {
   const isIncome = data.amount > 0;
   const iconName = CATEGORIES_ICONS[data.category]
 
-  const [date, time] = String(data?.created_at).split(' ');
+  // Check if created_at is valid; fallback to current date if not
+  const createdAtStr = String(data?.created_at || '');
+  const date = createdAtStr && !isNaN(Date.parse(createdAtStr)) ? new Date(createdAtStr) : new Date();
+
 
   return (
     <View style={styles.containter}>
@@ -22,12 +25,11 @@ export default function TransactionItem({ data }: { data: TransactionType }) {
         <View style={styles.TextContainer}>
           <Text style={styles.TransactionTitle}>{data.title}</Text>
           <View style={styles.subTextContainer}>
-            <Text style={styles.subText}>{formatDisplayDate(new Date(String(data.created_at)))}</Text>
+            <Text style={styles.subText}>{formatDisplayDate(date)}</Text>
             <View style={styles.dot}>
               <Ionicons name="ellipse" color={COLORS.text} size={4.75} />
             </View>
-            <Text style={styles.subText}>{formatDisplayTime(new Date(String(data.created_at)))}</Text>
-            {/* <Text style={styles.subText}>{formatTime(time)}</Text> */}
+            <Text style={styles.subText}>{formatDisplayTime(date)}</Text>
           </View>
         </View>
       </View>
