@@ -55,7 +55,8 @@ export default function Create() {
         amount: formatedAmount,
         category: SelectedCategory as CategoryKey,
         id: Number(id),
-        note: Note
+        note: Note,
+        created_at: selectedDate.toISOString()
       });
     }
 
