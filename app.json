@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "spendwise",
+    "name": "SpendWise",
     "slug": "spendwise",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -12,8 +12,9 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.lordjayanta.spendwise",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#121212",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
