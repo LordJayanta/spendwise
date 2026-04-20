@@ -11,10 +11,15 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.lordjayanta.spendwise",
-      "buildNumber": "1"
+      "jsEngine": "hermes",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.lordjayanta.spendwise",
+      "jsEngine": "hermes",
       "adaptiveIcon": {
         "backgroundColor": "#121212",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -106,8 +111,61 @@
           },
           "ios": {
             "fonts": [
-              "./assets/fonts/Inter-Bold.ttf",
-              "./assets/fonts/Inter-BoldItalic.ttf"
+              {
+                "fontFamily": "Inter",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/fonts/Inter_300Light_Italic.ttf",
+                    "weight": 300,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_300Light.ttf",
+                    "weight": 300,
+                    "style": "normal"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_400Regular_Italic.ttf",
+                    "weight": 400,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_400Regular.ttf",
+                    "weight": 400,
+                    "style": "normal"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_500Medium_Italic.ttf",
+                    "weight": 500,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_500Medium.ttf",
+                    "weight": 500,
+                    "style": "normal"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_600SemiBold_Italic.ttf",
+                    "weight": 600,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_600SemiBold.ttf",
+                    "weight": 600,
+                    "style": "normal"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_700Bold_Italic.ttf",
+                    "weight": 700,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Inter_700Bold.ttf",
+                    "weight": 700,
+                    "style": "normal"
+                  }
+                ]
+              }
             ]
           }
         }
