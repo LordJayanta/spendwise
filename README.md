@@ -2,13 +2,22 @@
 
 **A professional, offline-first personal finance tracker built with React Native and Expo.**
 
-![Version](https://img.shields.io/badge/version-0.1.0--pre--release-orange)
+![Version](https://img.shields.io/badge/version-0.1.1--stable-green)
+![Size](https://img.shields.io/badge/APK--Size-38MB-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Android-green)
 
 SpendWise is a lightweight, secure expense manager designed to give you full control over your financial data. Built with a focus on performance and reliability, it stores everything locally on your device—no cloud, no tracking, just your data.
 
 ---
+
+## ✨ Key Features (v0.1.1 MVP)
+
+I prioritized a small footprint and smooth UX in the v0.1.1 release:
+
+- **Tree Shaking**: Enabled ProGuard/R8 to remove unused native modules.
+- **Resource Shrinking**: Automated removal of unused assets.
+- **Babel Transforms**: Stripped all debug console logs from production binaries to save CPU cycles.
 
 ## ✨ Key Features (v0.1.0 MVP)
 
@@ -30,6 +39,8 @@ SpendWise is a lightweight, secure expense manager designed to give you full con
 - **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
 - **Icons**: Lucide React Native & Ionicons
 - **Language**: JavaScript / TypeScript
+- **Build Tools**: EAS Build (Cloud), ProGuard, Babel
+- **Engine**: Hermes (Optimized Bytecode)
 
 ---
 
@@ -70,6 +81,8 @@ Distributed under the **Apache License 2.0**. See `LICENSE` for more information
 ---
 
 ## 🤝 Contact
+
+> Maintained by LordJayanta
 
 **LordJayanta** - [@GitHub](https://github.com/LordJayanta)  
 Project Link: [https://github.com/LordJayanta/spendwise](https://github.com/LordJayanta/spendwise)
