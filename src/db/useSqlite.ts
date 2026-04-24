@@ -1,6 +1,8 @@
+import { desc, eq, gt, lt, sql } from "drizzle-orm";
 import { useMemo } from "react";
-import { SummaryType, TransactionType } from "../types/types";
+import { SummaryType } from "../types/types";
 import { db, initDb } from "./database";
+import { Transaction, transactions } from "./schema";
 
 export const useSqlite = () => {
   return useMemo(
@@ -17,31 +19,35 @@ export const useSqlite = () => {
   );
 };
 
-export const LoadDatabase = async () => {
-  await initDb();
-  console.log("Database initialized");
-};
-
 // Get Summary of all transactions
 export const getSummary = async () => {
+  await initDb();
   type resType = { value: number } | null;
 
-  await LoadDatabase();
+  const balance: resType[] = await db
+    .select({
+      value: sql<number>`COALESCE(SUM(${transactions.amount}), 0)`,
+    })
+    .from(transactions);
 
-  const balance: resType = await db.getFirstAsync(
-    `SELECT COALESCE(SUM(amount), 0) AS value FROM transactions;`,
-  );
-  const income: resType = await db.getFirstAsync(
-    `SELECT COALESCE(SUM(amount), 0) AS value FROM transactions WHERE amount > 0;`,
-  );
-  const expence: resType = await db.getFirstAsync(
-    `SELECT COALESCE(SUM(amount), 0) AS value FROM transactions WHERE amount < 0;`,
-  );
+  const income: resType[] = await db
+    .select({
+      value: sql<number>`COALESCE(SUM(${transactions.amount}), 0)`,
+    })
+    .from(transactions)
+    .where(gt(transactions.amount, 0));
+
+  const expence: resType[] = await db
+    .select({
+      value: sql<number>`COALESCE(SUM(${transactions.amount}), 0)`,
+    })
+    .from(transactions)
+    .where(lt(transactions.amount, 0));
 
   const Summary: SummaryType = {
-    balance: Math.abs(Number(balance?.value)),
-    income: Math.abs(Number(income?.value)),
-    expence: Math.abs(Number(expence?.value)),
+    balance: Math.abs(Number(balance[0]?.value)),
+    income: Math.abs(Number(income[0]?.value)),
+    expence: Math.abs(Number(expence[0]?.value)),
   };
 
   return Summary;
@@ -60,12 +66,13 @@ export const addTransaction = async ({
   note: string;
 }) => {
   try {
-    await LoadDatabase();
-    // ALWAYS use '?' for values to prevent SQL injection and syntax errors!
-    const result = await db.runAsync(
-      `INSERT INTO transactions (title, amount, category, note) VALUES (?, ?, ?, ?);`,
-      [title, amount, category, note],
-    );
+    await initDb();
+    const result = await db.insert(transactions).values({
+      title,
+      amount,
+      category,
+      note,
+    });
 
     console.log("createTransaction: ", result);
 
@@ -78,10 +85,12 @@ export const addTransaction = async ({
 // 2. READ (Select All)
 export const getAllTransactions = async () => {
   try {
-    await LoadDatabase();
-    const result: TransactionType[] = await db.getAllAsync(
-      `SELECT * FROM transactions ORDER BY id DESC;`,
-    );
+    await initDb();
+    const result: Transaction[] = await db
+      .select()
+      .from(transactions)
+      .orderBy(desc(transactions.id))
+      .all();
     console.log("getAllTransactions: ", result);
     return result;
   } catch (error) {
@@ -92,12 +101,13 @@ export const getAllTransactions = async () => {
 // 3. READ (Select One)
 export const getTransactionById = async (id: number) => {
   try {
-    await LoadDatabase();
-    const result = await db.getFirstAsync(
-      `SELECT * FROM transactions WHERE id = ?;`,
-      [id],
-    );
-    return result;
+    await initDb();
+    const result: Transaction[] = await db
+      .select()
+      .from(transactions)
+      .where(eq(transactions.id, id));
+
+    return result[0];
   } catch (error) {
     console.error("getTransactionById: ", error);
   }
@@ -118,11 +128,11 @@ export const updateTransactionById = async ({
   note: string;
 }) => {
   try {
-    await LoadDatabase();
-    const result = await db.runAsync(
-      `UPDATE transactions SET title = ? , category = ?, amount = ?, note = ? WHERE id = ?;`,
-      [title, category, amount, note, id],
-    );
+    await initDb();
+    const result = await db
+      .update(transactions)
+      .set({ title, amount, category, note })
+      .where(eq(transactions.id, id));
     return result.changes;
   } catch (error) {
     console.error("updateTransactionById: ", error);
@@ -132,8 +142,8 @@ export const updateTransactionById = async ({
 // 4. DELETE
 export const deleteTransactionById = async (id: number) => {
   try {
-    await LoadDatabase();
-    await db.runAsync(`DELETE FROM transactions WHERE id = ?;`, [id]);
+    await initDb();
+    await db.delete(transactions).where(eq(transactions.id, id));
     return;
   } catch (error) {
     console.error("deleteTransactionById: ", error);
