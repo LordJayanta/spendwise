@@ -2,7 +2,7 @@
 
 **A professional, offline-first personal finance tracker built with React Native and Expo.**
 
-![Version](https://img.shields.io/badge/version-0.1.1--stable-green)
+![Version](https://img.shields.io/badge/version-0.2.0--stable-green)
 ![Size](https://img.shields.io/badge/APK--Size-38MB-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Android-green)
@@ -11,31 +11,24 @@ SpendWise is a lightweight, secure expense manager designed to give you full con
 
 ---
 
-## ✨ Key Features (v0.1.1 MVP)
+## ✨ Key Features (v0.2.0)
 
-I prioritized a small footprint and smooth UX in the v0.1.1 release:
-
-- **Tree Shaking**: Enabled ProGuard/R8 to remove unused native modules.
-- **Resource Shrinking**: Automated removal of unused assets.
-- **Babel Transforms**: Stripped all debug console logs from production binaries to save CPU cycles.
-
-## ✨ Key Features (v0.1.0 MVP)
-
-- 🏦 **Local Persistence**: Powered by **SQLite** for industrial-grade data reliability.
-- ⚡ **Real-time Synchronization**: Global state management via **React Context API** ensures your balance and history stay in sync instantly.
-- 📝 **Full CRUD Support**: Effortlessly Create, Read, Update, and Delete your transactions.
-- 📊 **Live Summary**: Instant calculation of total income and expenses.
+- 🏦 **Local Persistence**: Powered by **SQLite** with **Drizzle ORM** for industrial-grade data reliability and efficient querying.
+- ⚡ **Advanced State Management**: Upgraded to **Zustand** for lightning-fast global state synchronization, ensuring your balance and history stay in sync instantly.
+- 📝 **Full CRUD Support**: Effortlessly Create, Read, Update, and Delete your transactions with improved data handling.
+- 📊 **Live Summary**: Instant calculation of total income and expenses with real-time updates.
 - 📅 **Manual Entry Control**: Full control over transaction timestamps and categories.
 - 🔄 **Pull-to-Refresh**: Easily force-sync your data with standard mobile interactions.
 - 🛡️ **Privacy First**: No internet permissions required for data storage.
+- ⚙️ **Optimized Build**: Tree shaking, resource shrinking, and debug log stripping for a smaller footprint and better performance.
 
 ---
 
 ## 🛠 Tech Stack
 
 - **Framework**: [Expo](https://expo.dev/) (React Native)
-- **Database**: [expo-sqlite](https://docs.expo.dev/versions/latest/sdk/sqlite/)
-- **State Management**: React Context API
+- **Database**: [expo-sqlite](https://docs.expo.dev/versions/latest/sdk/sqlite/) with [Drizzle ORM](https://orm.drizzle.team/)
+- **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
 - **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
 - **Icons**: Lucide React Native & Ionicons
 - **Language**: JavaScript / TypeScript
@@ -51,7 +44,7 @@ I prioritized a small footprint and smooth UX in the v0.1.1 release:
 You can download the latest pre-release APK directly to your Android device:
 
 1. Go to the [Releases](https://github.com/LordJayanta/spendwise/releases) page.
-2. Download `SpendWise_v0.1.0.apk`.
+2. Download `SpendWise_v0.2.0.apk`.
 3. Install the APK on your phone (you may need to allow "Install from Unknown Sources").
 
 ### For Developers
