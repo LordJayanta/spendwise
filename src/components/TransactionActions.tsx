@@ -4,7 +4,7 @@ import { router } from 'expo-router'
 import React from 'react'
 import { Alert, Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../constant/colors'
-import { useTransaction } from '../context/TransactionContext'
+import { useTransactionStore } from '../store/useTransactionStore'
 import { TransactionType } from '../types/types'
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
     isOpen: boolean
 }
 export default function TransactionActions({ data, onClose, isOpen }: Props) {
-    const { deleteTransaction } = useTransaction();
+    const { deleteTransaction } = useTransactionStore();
 
     const handleDelete = async (data: TransactionType) => {
         try {
@@ -23,7 +23,7 @@ export default function TransactionActions({ data, onClose, isOpen }: Props) {
             ])
         } catch (error) {
             Alert.alert("Error", "Failed to delete Transaction")
-            console.log("Error Deleting Transaction: ", error)
+            console.error("Error Deleting Transaction: ", error)
         }
         onClose();
     }

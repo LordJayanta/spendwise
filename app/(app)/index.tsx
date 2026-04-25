@@ -4,8 +4,8 @@ import NoTransactionsFound from "@/src/components/no-transactions-found";
 import TransactionItem from "@/src/components/transaction-item";
 import TransactionActions from "@/src/components/TransactionActions";
 import { COLORS } from "@/src/constant/colors";
-import { useTransaction } from "@/src/context/TransactionContext";
-import { TransactionType } from "@/src/types/types";
+import { Transaction } from "@/src/db/schema";
+import { useTransactionStore } from "@/src/store/useTransactionStore";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
@@ -14,7 +14,7 @@ import { FlatList, RefreshControl, Text, TouchableOpacity, View } from "react-na
 
 
 export default function Index() {
-  const { summary, transactions, LoadDatabase } = useTransaction();
+  const { loadDatabase, summary, transactions } = useTransactionStore()
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<number | null>(null);
@@ -22,7 +22,7 @@ export default function Index() {
 
   const handleRefreshTransactions = async () => {
     setRefreshTransactions(true);
-    await LoadDatabase();
+    loadDatabase();
     setRefreshTransactions(false);
   }
 
@@ -80,7 +80,7 @@ export default function Index() {
             </View>
             <View style={homeStyles.StatsTextContainer}>
               <Text style={homeStyles.StatsText}>OUTFLOW</Text>
-              <Text style={homeStyles.StatsAmountText}>-${Math.abs(summary.expence)}</Text>
+              <Text style={homeStyles.StatsAmountText}>-${Math.abs(summary.expense)}</Text>
             </View>
           </LinearGradient>
         </View>
@@ -105,10 +105,10 @@ export default function Index() {
 
           <FlatList
             data={transactions}
-            renderItem={({ item }: { item: TransactionType }) => (
+            renderItem={({ item }: { item: Transaction }) => (
               <TouchableOpacity onLongPress={() => {
                 setIsModalOpen(!isModalOpen);
-                setSelectedTransactionId(item.id);
+                setSelectedTransactionId(Number(item.id));
               }}>
                 <TransactionItem data={item} />
               </TouchableOpacity>

@@ -1,14 +1,14 @@
 import { Ionicons, } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { CATEGORIES_ICONS } from '../constant/Category';
+import { CATEGORIES_ICONS, CategoryKey } from '../constant/Category';
 import { COLORS } from '../constant/colors';
-import { TransactionType } from '../types/types';
+import { Transaction } from '../db/schema';
 import { formatDisplayDate, formatDisplayTime } from '../uitle/formatTime';
 
-export default function TransactionItem({ data }: { data: TransactionType }) {
+export default function TransactionItem({ data }: { data: Transaction }) {
   const isIncome = data.amount > 0;
-  const iconName = CATEGORIES_ICONS[data.category]
+  const iconName = CATEGORIES_ICONS[data.category as CategoryKey]
 
   // Check if created_at is valid; fallback to current date if not
   const createdAtStr = String(data?.created_at || '');

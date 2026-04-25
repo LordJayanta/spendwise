@@ -12,5 +12,5 @@ export type TransactionType = {
 export type SummaryType = {
   balance: number;
   income: number;
-  expence: number;
+  expense: number;
 };

@@ -1,14 +1,14 @@
 import PageLoader from "@/src/components/page-loader";
-import { useTransaction } from "@/src/context/TransactionContext";
+import { useTransactionStore } from "@/src/store/useTransactionStore";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
 
 export default function AppLayout() {
-    const { isLoading, LoadDatabase } = useTransaction();
+    const { isLoading, loadDatabase } = useTransactionStore();
 
     useEffect(() => {
-        LoadDatabase();
-    }, []);
+        loadDatabase();
+    }, [loadDatabase]);
 
     if (isLoading) return <PageLoader />;
 

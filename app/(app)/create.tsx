@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react'
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { CATEGORIES, CategoryKey } from '@/src/constant/Category'
-import { useTransaction } from '@/src/context/TransactionContext'
-import { TransactionType } from '@/src/types/types'
+import { Transaction } from '@/src/db/schema'
+import { useTransactionStore } from '@/src/store/useTransactionStore'
 import { formatDisplayDate, formatDisplayTime } from '@/src/uitle/formatTime'
 
 
@@ -24,7 +24,7 @@ export default function Create() {
   const [Note, setNote] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
 
-  const { transactions, addTransaction, updateTransaction } = useTransaction();
+  const { transactions, addTransaction, updateTransaction } = useTransactionStore();
 
   const handleAddTransaction = async () => {
     const isIncome = SelectedCategory === "Income" || SelectedCategory === "Salary";
@@ -72,7 +72,7 @@ export default function Create() {
   useEffect(() => {
     const loadData = async () => {
       if (id) {
-        const res: TransactionType | undefined = transactions.find(t => t.id === Number(id));
+        const res: Transaction | undefined = transactions.find(t => t.id === Number(id));
 
         if (res) {
           setAmount(String(Math.abs(res.amount)));
@@ -84,7 +84,7 @@ export default function Create() {
       }
     }
     loadData()
-  }, [id])
+  }, [id, transactions])
   return (
     <View style={createPageStyles.container}>
       {/* TAB */}

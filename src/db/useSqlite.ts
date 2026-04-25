@@ -37,7 +37,7 @@ export const getSummary = async () => {
     .from(transactions)
     .where(gt(transactions.amount, 0));
 
-  const expence: resType[] = await db
+  const expense: resType[] = await db
     .select({
       value: sql<number>`COALESCE(SUM(${transactions.amount}), 0)`,
     })
@@ -47,7 +47,7 @@ export const getSummary = async () => {
   const Summary: SummaryType = {
     balance: Math.abs(Number(balance[0]?.value)),
     income: Math.abs(Number(income[0]?.value)),
-    expence: Math.abs(Number(expence[0]?.value)),
+    expense: Math.abs(Number(expense[0]?.value)),
   };
 
   return Summary;
@@ -74,8 +74,6 @@ export const addTransaction = async ({
       note,
     });
 
-    console.log("createTransaction: ", result);
-
     return result.lastInsertRowId;
   } catch (error) {
     console.error("createTransaction: ", error);
@@ -91,7 +89,7 @@ export const getAllTransactions = async () => {
       .from(transactions)
       .orderBy(desc(transactions.id))
       .all();
-    console.log("getAllTransactions: ", result);
+
     return result;
   } catch (error) {
     console.error("getAllTransactions: ", error);
@@ -148,4 +146,14 @@ export const deleteTransactionById = async (id: number) => {
   } catch (error) {
     console.error("deleteTransactionById: ", error);
   }
+};
+
+export const sqlite = {
+  db,
+  getSummary,
+  addTransaction,
+  getAllTransactions,
+  getTransactionById,
+  updateTransactionById,
+  deleteTransactionById,
 };
