@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { Transaction } from "../db/schema";
 import { sqlite } from "../db/useSqlite";
 import { SummaryType, TransactionType } from "../types/types";
-import { getSqliteTimestamp } from "../uitle/formatTime";
+import { getSqliteTimestamp } from "../utils/formatTime";
 
 type Store = {
   isLoading: boolean;

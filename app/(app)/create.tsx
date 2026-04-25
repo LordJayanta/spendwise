@@ -10,7 +10,7 @@ import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'reac
 import { CATEGORIES, CategoryKey } from '@/src/constant/Category'
 import { Transaction } from '@/src/db/schema'
 import { useTransactionStore } from '@/src/store/useTransactionStore'
-import { formatDisplayDate, formatDisplayTime } from '@/src/uitle/formatTime'
+import { formatDisplayDate, formatDisplayTime } from '@/src/utils/formatTime'
 
 
 export default function Create() {

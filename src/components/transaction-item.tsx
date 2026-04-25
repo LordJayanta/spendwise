@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { CATEGORIES_ICONS, CategoryKey } from '../constant/Category';
 import { COLORS } from '../constant/colors';
 import { Transaction } from '../db/schema';
-import { formatDisplayDate, formatDisplayTime } from '../uitle/formatTime';
+import { formatDisplayDate, formatDisplayTime } from '../utils/formatTime';
 
 export default function TransactionItem({ data }: { data: Transaction }) {
   const isIncome = data.amount > 0;
