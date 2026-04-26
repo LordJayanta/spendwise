@@ -67,6 +67,15 @@ To run this project locally:
 
 ---
 
+## 🧠 Developer Diary & Learnings
+
+Throughout the development of SpendWise, I documented the major technical challenges, Git workflows, and build optimization strategies I mastered.
+
+If you are another developer learning React Native or a recruiter looking for my technical insights, check out my developer diary here:
+👉 **[Read the Developer Cheatsheet & Learnings](./docs/LEARNINGS.md)**
+
+---
+
 ## 📄 License
 
 Distributed under the **Apache License 2.0**. See `LICENSE` for more information.
