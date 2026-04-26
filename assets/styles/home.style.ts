@@ -60,9 +60,33 @@ export const homeStyles = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: 600, // "semibold",
   },
+  AnalayticsWraapper: {
+    paddingTop: 24,
+    paddingHorizontal: 16,
+  },
+  AnalayticsContainer: {
+    padding: 16,
+    borderRadius: 20,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 24,
+  },
+  AnalayticsTextContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 16,
+  },
+  AnalayticsText: {
+    color: COLORS.text,
+    fontSize: 14,
+    fontFamily: "Inter",
+    fontWeight: 600, // "semibold",
+  },
   TransactionsContainerWraapper: {
     flex: 1,
-    paddingTop: 32,
+    paddingTop: 16,
     paddingHorizontal: 16,
   },
   TransactionsContainer: {

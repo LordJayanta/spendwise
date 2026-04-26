@@ -8,6 +8,7 @@ import { Transaction } from "@/src/db/schema";
 import { useTransactionStore } from "@/src/store/useTransactionStore";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { useState } from "react";
 import { FlatList, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 
@@ -85,6 +86,25 @@ export default function Index() {
           </LinearGradient>
         </View>
       </View>
+      
+      {/* Analaytic Section */}
+      <TouchableOpacity
+       style={homeStyles.AnalayticsWraapper}
+       onPress={() => router.push("/analytics")}
+       >
+        <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            colors={['#1B1B1B', '#151515']}
+            style={homeStyles.AnalayticsContainer}
+          >
+            <View style={homeStyles.AnalayticsTextContainer}>
+              <Ionicons name="analytics" size={20} color={COLORS.primary}/>
+              <Text style={homeStyles.AnalayticsText}>Analaytics</Text>
+            </View>
+            <Ionicons name="arrow-forward" size={20} color={COLORS.primary}/>
+          </LinearGradient>
+      </TouchableOpacity>
 
 
       {/* TRANSACTIONS SECTIONS */}

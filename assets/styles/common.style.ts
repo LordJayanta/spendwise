@@ -2,6 +2,10 @@ import { COLORS } from "@/src/constant/colors";
 import { StyleSheet } from "react-native";
 
 export const commonStyles = StyleSheet.create({
+  baseScreen: {
+    flex: 1,
+    backgroundColor: COLORS.natural,
+  },
   clickableBtn: {
     fontSize: 16,
     color: COLORS.primary,
