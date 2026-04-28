@@ -79,7 +79,7 @@ export const homeStyles = StyleSheet.create({
     gap: 16,
   },
   AnalayticsText: {
-    color: COLORS.text,
+    color: COLORS.light,
     fontSize: 14,
     fontFamily: "Inter",
     fontWeight: 600, // "semibold",

@@ -1,4 +1,4 @@
-import { desc, eq, gt, lt, sql } from "drizzle-orm";
+import { desc, eq, gt, lt, sql, sum } from "drizzle-orm";
 import { useMemo } from "react";
 import { SummaryType } from "../types/types";
 import { db, initDb } from "./database";
@@ -14,6 +14,7 @@ export const useSqlite = () => {
       getTransactionById,
       updateTransactionById,
       deleteTransactionById,
+      getIncomeData,
     }),
     [],
   );
@@ -148,6 +149,27 @@ export const deleteTransactionById = async (id: number) => {
   }
 };
 
+// 4. DELETE
+export const getIncomeData = async () => {
+  try {
+    await initDb();
+    const data = await db
+      .select({
+        month: sql<string>`strftime('%Y-%m', ${transactions.created_at})`.as(
+          "month",
+        ),
+        totalIncome: sum(transactions.amount).mapWith(Number),
+      })
+      .from(transactions)
+      .where(gt(transactions.amount, 0))
+      .groupBy(sql`month`)
+      .orderBy(sql`month DESC`);
+    return data;
+  } catch (error) {
+    console.error("getIncome: ", error);
+  }
+};
+
 export const sqlite = {
   db,
   getSummary,
@@ -156,4 +178,5 @@ export const sqlite = {
   getTransactionById,
   updateTransactionById,
   deleteTransactionById,
+  getIncomeData,
 };

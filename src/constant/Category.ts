@@ -7,16 +7,17 @@ export type CategoryType = {
   id: string;
   name: string;
   icon: IconName;
+  color?: string;
 };
 
 export const CATEGORIES: CategoryType[] = [
-  { id: "Salary", name: "Salary", icon: "cash-outline" },
-  { id: "Groceries", name: "Groceries", icon: "cart-outline" },
-  { id: "Entertainment", name: "Entertainment", icon: "film-outline" },
-  { id: "Clothing", name: "Clothing", icon: "shirt-outline" },
-  { id: "Health", name: "Health", icon: "medkit-outline" },
-  { id: "Travel", name: "Travel", icon: "bus-outline" },
-  { id: "Food", name: "Food", icon: "fast-food-outline" },
+  { id: "Salary", name: "Salary", icon: "cash-outline", color: "green" },
+  { id: "Groceries", name: "Groceries", icon: "cart-outline", color: "gray" },
+  { id: "Entertainment", name: "Entertainment", icon: "film-outline", color: "blue" },
+  { id: "Clothing", name: "Clothing", icon: "shirt-outline", color: "orange" },
+  { id: "Health", name: "Health", icon: "medkit-outline", color: "violet" },
+  { id: "Travel", name: "Travel", icon: "bus-outline", color: "yellow" },
+  { id: "Food", name: "Food", icon: "fast-food-outline", color: "skyblue" },
 ];
 
 export type CategoryKey =

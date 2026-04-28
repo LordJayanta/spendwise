@@ -63,19 +63,19 @@ export const analyticsStyles = StyleSheet.create({
     borderRadius: 32,
     overflow: "hidden",
   },
-  PieChartHeaderContainer: {
+  ChartHeaderContainer: {
     display: "flex",
     flexDirection: "column",
     gap: 8,
     paddingVertical: 16,
     paddingHorizontal: 20,
   },
-  PieChartHeaderTitle: {
+  ChartHeaderTitle: {
     color: COLORS.light,
     fontSize: 24,
     fontWeight: "semibold",
   },
-  PieChartHeaderText: {
+  ChartHeaderText: {
     color: COLORS.text,
     fontSize: 12,
   },
