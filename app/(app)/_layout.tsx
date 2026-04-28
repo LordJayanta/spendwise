@@ -1,5 +1,5 @@
-import PageLoader from "@/src/components/page-loader";
-import { useTransactionStore } from "@/src/store/useTransactionStore";
+import { useTransactionStore } from "@/src/features/transactions/store/useTransactionStore";
+import PageLoader from "@/src/shared/components/page-loader";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
 

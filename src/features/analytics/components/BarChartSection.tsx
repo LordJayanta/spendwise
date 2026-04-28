@@ -1,13 +1,13 @@
 import { analyticsStyles } from '@/assets/styles/analytics.stylel';
-import { COLORS } from '@/src/constant/colors';
-import { sqlite } from '@/src/db/useSqlite';
-import { useTransactionStore } from '@/src/store/useTransactionStore';
+import { COLORS } from '@/src/shared/constant/colors';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { BarChart, barDataItem } from 'react-native-gifted-charts';
+import { sqlite } from '../db/useSqlite';
+import { useAnalytics } from '../hooks/useAnalytics';
 
 export const BarChartSection = () => {
-    const { summary } = useTransactionStore();
+    const { summary } = useAnalytics();
     const [barData, setBarData] = useState<barDataItem[]>([]);
 
     const loadMonthlyData = async () => {

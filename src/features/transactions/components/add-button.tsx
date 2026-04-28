@@ -1,4 +1,4 @@
-import { COLORS } from "@/src/constant/colors";
+import { COLORS } from "@/src/shared/constant/colors";
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 

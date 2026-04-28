@@ -1,10 +1,10 @@
 import { Ionicons, } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { COLORS } from '../../../shared/constant/colors';
+import { Transaction } from '../../../shared/db/schema';
+import { formatDisplayDate, formatDisplayTime } from '../../../shared/utils/formatTime';
 import { CATEGORIES_ICONS, CategoryKey } from '../constant/Category';
-import { COLORS } from '../constant/colors';
-import { Transaction } from '../db/schema';
-import { formatDisplayDate, formatDisplayTime } from '../utils/formatTime';
 
 export default function TransactionItem({ data }: { data: Transaction }) {
   const isIncome = data.amount > 0;

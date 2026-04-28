@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import { COLORS } from '../constant/colors'
+import { COLORS } from '../../../shared/constant/colors'
 
 export default function NoTransactionsFound() {
   return (

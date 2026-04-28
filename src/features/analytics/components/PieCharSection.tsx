@@ -1,14 +1,14 @@
 import { analyticsStyles } from '@/assets/styles/analytics.stylel';
-import { CATEGORIES, CATEGORIES_ICONS, CategoryKey } from '@/src/constant/Category';
-import { COLORS } from '@/src/constant/colors';
-import { useTransactionStore } from '@/src/store/useTransactionStore';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { PieChart, pieDataItem } from 'react-native-gifted-charts';
+import { COLORS } from '../../../shared/constant/colors';
+import { CATEGORIES, CATEGORIES_ICONS, CategoryKey } from '../../transactions/constant/Category';
+import { useAnalytics } from '../hooks/useAnalytics';
 
 export const PieCharSection = () => {
-    const { summary, transactions } = useTransactionStore();
+    const { summary, transactions } = useAnalytics();
     const [pieData, setPieData] = useState<pieDataItem[]>([]);
 
     const generateChartData = () => {

@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { router } from 'expo-router'
 import React from 'react'
 import { Alert, Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { COLORS } from '../constant/colors'
+import { COLORS } from '../../../shared/constant/colors'
 import { useTransactionStore } from '../store/useTransactionStore'
 import { TransactionType } from '../types/types'
 

@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { Transaction } from "../db/schema";
+import { Transaction } from "../../../shared/db/schema";
+import { getSqliteTimestamp } from "../../../shared/utils/formatTime";
 import { sqlite } from "../db/useSqlite";
 import { SummaryType, TransactionType } from "../types/types";
-import { getSqliteTimestamp } from "../utils/formatTime";
 
 type Store = {
   isLoading: boolean;

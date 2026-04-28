@@ -1,16 +1,16 @@
 import { commonStyles } from '@/assets/styles/common.style'
 import { createPageStyles } from '@/assets/styles/create.style'
-import CategoryItem from '@/src/components/category-item'
-import { COLORS } from '@/src/constant/colors'
+import CategoryItem from '@/src/features/transactions/components/category-item'
+import { COLORS } from '@/src/shared/constant/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { router, useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
-import { CATEGORIES, CategoryKey } from '@/src/constant/Category'
-import { Transaction } from '@/src/db/schema'
-import { useTransactionStore } from '@/src/store/useTransactionStore'
-import { formatDisplayDate, formatDisplayTime } from '@/src/utils/formatTime'
+import { CATEGORIES, CategoryKey } from '@/src/features/transactions/constant/Category'
+import { useTransactionStore } from '@/src/features/transactions/store/useTransactionStore'
+import { Transaction } from '@/src/shared/db/schema'
+import { formatDisplayDate, formatDisplayTime } from '@/src/shared/utils/formatTime'
 
 
 export default function Create() {

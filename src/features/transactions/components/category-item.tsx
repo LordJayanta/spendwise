@@ -1,10 +1,10 @@
-import { COLORS } from "@/src/constant/colors";
+import { COLORS } from "@/src/shared/constant/colors";
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { type IconName } from '@/src/constant/Category';
+import { type IconName } from '@/src/features/transactions/constant/Category';
 
 export default function CategoryItem({ active = false, name, icon }: { active?: boolean, name: string , icon: IconName}) {
     return (

@@ -1,11 +1,11 @@
 import { homeStyles } from "@/assets/styles/home.style";
-import AddButton from "@/src/components/add-button";
-import NoTransactionsFound from "@/src/components/no-transactions-found";
-import TransactionItem from "@/src/components/transaction-item";
-import TransactionActions from "@/src/components/TransactionActions";
-import { COLORS } from "@/src/constant/colors";
-import { Transaction } from "@/src/db/schema";
-import { useTransactionStore } from "@/src/store/useTransactionStore";
+import AddButton from "@/src/features/transactions/components/add-button";
+import NoTransactionsFound from "@/src/features/transactions/components/no-transactions-found";
+import TransactionItem from "@/src/features/transactions/components/transaction-item";
+import TransactionActions from "@/src/features/transactions/components/TransactionActions";
+import { useTransactionStore } from "@/src/features/transactions/store/useTransactionStore";
+import { COLORS } from "@/src/shared/constant/colors";
+import { Transaction } from "@/src/shared/db/schema";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";

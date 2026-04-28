@@ -1,16 +1,16 @@
 import { analyticsStyles } from '@/assets/styles/analytics.stylel'
 import { commonStyles } from '@/assets/styles/common.style'
-import { BarChartSection } from '@/src/components/analytics/BarChartSection'
-import { PieCharSection } from '@/src/components/analytics/PieCharSection'
-import { COLORS } from '@/src/constant/colors'
-import { useTransactionStore } from '@/src/store/useTransactionStore'
+import { BarChartSection } from '@/src/features/analytics/components/BarChartSection'
+import { PieCharSection } from '@/src/features/analytics/components/PieCharSection'
+import { useTransactionStore } from '@/src/features/transactions/store/useTransactionStore'
+import { COLORS } from '@/src/shared/constant/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 const Analytics = () => {
-  const { transactions, summary } = useTransactionStore();
+  const { summary } = useTransactionStore();
 
   return (
     <View style={[commonStyles.baseScreen]}>

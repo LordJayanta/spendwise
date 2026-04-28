@@ -1,4 +1,4 @@
-import { COLORS } from "@/src/constant/colors";
+import { COLORS } from "@/src/shared/constant/colors";
 import { StyleSheet } from "react-native";
 
 export const createPageStyles = StyleSheet.create({

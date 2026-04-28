@@ -1,3 +1,4 @@
+import { SummaryType } from "../../../shared/common.types";
 import { CategoryKey } from "../constant/Category";
 
 export type TransactionType = {
@@ -9,8 +10,5 @@ export type TransactionType = {
   category: CategoryKey;
 };
 
-export type SummaryType = {
-  balance: number;
-  income: number;
-  expense: number;
-};
+export { SummaryType };
+
