@@ -36,6 +36,13 @@ We used prefixes to tell a story in our Git history.
 - **The Legacy Branch:** Saved the old Context code to a branch (`architecture/legacy-context-sqlite`) for recruiters to see, while moving `main` forward.
 - **The "Source of Truth" Rule:** Always build the Database schema first (Drizzle), then the State (Zustand), then the UI.
 
+### 🟣 v0.3.0: Data Analytics & Visualization
+
+- **Data Transformation Pattern**: Learned how to transform raw database rows (Flat Arrays) into specialized data structures (Grouped Objects) required by charting libraries.
+- **Library Integration**: Successfully integrated `react-native-gifted-charts` and `react-native-svg`, handling the complexity of third-party peer dependencies in an Expo environment.
+- **Modular Component Design**: Practiced "Separation of Concerns" by moving complex chart logic out of the main screens and into dedicated, reusable analytics components.
+- **The "Road to v1.0.0" Strategy**: Implemented feature scaffolding (Route placeholders) before committing to heavy logic, ensuring the navigation flow was stable first.
+
 ---
 
 ## 💻 3. The Git Command Dictionary
