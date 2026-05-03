@@ -13,3 +13,14 @@ export const transactions = sqliteTable("transactions", {
 });
 
 export type Transaction = typeof transactions.$inferInsert;
+
+export const user = sqliteTable("user", {
+  id: integer("id").primaryKey({ autoIncrement: true }).notNull(), // id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name: text("name").notNull(), // name TEXT NOT NULL,
+  currency: text("currency").notNull(), // currency TEXT NOT NULL
+  hasFinishedOnboarding: integer("hasFinishedOnboarding", { mode: "boolean" })
+    .notNull()
+    .default(false), // hasFinishedOnboarding INTEGER DEFAULT 0
+});
+
+export type User = typeof user.$inferInsert;

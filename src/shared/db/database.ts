@@ -28,6 +28,15 @@ export const initDb = async () => {
       );
     `);
 
+    await expodb.execAsync(`
+      CREATE TABLE IF NOT EXISTS user (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          currency TEXT NOT NULL,
+          hasFinishedOnboarding INTEGER DEFAULT 0
+      );
+    `);
+
     const version = await expodb.getFirstAsync<{ user_version: number }>(
       "PRAGMA user_version;",
     );
