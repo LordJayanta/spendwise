@@ -5,7 +5,7 @@ import { SQLiteRunResult } from "expo-sqlite";
 
 const creatUser = async ({ name, currency, hasFinishedOnboarding }: User) => {
   try {
-    initDb();
+    await initDb();
     const result = await db.insert(user).values({
       name,
       currency,
@@ -20,9 +20,10 @@ const creatUser = async ({ name, currency, hasFinishedOnboarding }: User) => {
 
 const getUser = async () => {
   try {
-    initDb();
-    const res: User[] = await db.select().from(user);
-    return res[0];
+    await initDb();
+    const existingUser: User[] = await db.select().from(user);
+
+    return existingUser[0];
   } catch (error) {
     console.error("getUser: ", error);
   }
@@ -32,7 +33,7 @@ const setUserNameById = async (id: User["id"], name: string) => {
   if (!id || !name) return;
 
   try {
-    initDb();
+    await initDb();
 
     const res: SQLiteRunResult = await db
       .update(user)
@@ -49,7 +50,7 @@ const setCurrencyById = async (id: User["id"], currency: string) => {
   if (!id || !currency) return;
 
   try {
-    initDb();
+    await initDb();
 
     const res: SQLiteRunResult = await db
       .update(user)

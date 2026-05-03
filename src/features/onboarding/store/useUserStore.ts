@@ -9,6 +9,7 @@ interface Store extends User {
   // Actions
   toggleLoading: () => void;
 
+  loadUser: () => Promise<void>;
   createUser: ({
     name,
     currency,
@@ -26,6 +27,12 @@ export const useUserStore = create<Store>((set, get) => ({
   isLoading: false,
 
   toggleLoading: () => set((state) => ({ isLoading: !state.isLoading })),
+
+  loadUser: async () => {
+    const res = await sqlite.getUser();
+
+    if (res) set({ ...res });
+  },
 
   createUser: async ({
     name,

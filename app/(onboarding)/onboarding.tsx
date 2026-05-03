@@ -4,7 +4,9 @@ import OnboardScreen, { type OnboardingData } from '@/src/features/onboarding/co
 import OnbordForm from '@/src/features/onboarding/components/OnbordForm';
 import Select from '@/src/features/onboarding/components/Select';
 import { CURRENCIES } from '@/src/features/onboarding/constant/CURRENCIES';
+import { useUserStore } from '@/src/features/onboarding/store/useUserStore';
 import { COLORS } from '@/src/shared/constant/colors';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Alert, Animated, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { ExpandingDot } from "react-native-animated-pagination-dots";
@@ -20,6 +22,8 @@ export default function Onboarding() {
   const { width } = useWindowDimensions();
   const pagerRef = React.useRef<PagerView>(null);
   const scrollX = React.useRef(new Animated.Value(0)).current;
+
+  const {createUser} = useUserStore();
 
 
   const onboardingData: OnboardingData[] = [
@@ -113,8 +117,15 @@ export default function Onboarding() {
         type: "database",
         text: "Loading Existing Database, Select Local db file",
       },
-      form: <EnterApp onPress={async() => {
+      form: <EnterApp onPress={async () => {
         Alert.alert("Success", `Hi, ${inputData.name}! You choose ${inputData.currency} As your Currency`);
+        await createUser({
+          name: inputData.name.trim(),
+          currency: inputData.currency.trim(),
+          hasFinishedOnboarding: true,
+        });
+
+        router.replace("/(app)/(tabs)");
       }} />
     },
   ];
