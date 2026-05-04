@@ -8,9 +8,11 @@ export default function AppLayout() {
     const { isLoading, loadDatabase } = useTransactionStore();
     const { hasFinishedOnboarding, loadUser } = useUserStore()
 
+ 
+
     useEffect(() => {
-        loadDatabase();
         loadUser();
+        loadDatabase();
     }, [loadDatabase, loadUser]);
 
     if (isLoading) return <PageLoader />;

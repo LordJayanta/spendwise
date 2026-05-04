@@ -23,7 +23,7 @@ export default function Onboarding() {
   const pagerRef = React.useRef<PagerView>(null);
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  const {createUser} = useUserStore();
+  const { id, loadUser, updateUser } = useUserStore();
 
 
   const onboardingData: OnboardingData[] = [
@@ -119,9 +119,13 @@ export default function Onboarding() {
       },
       form: <EnterApp onPress={async () => {
         Alert.alert("Success", `Hi, ${inputData.name}! You choose ${inputData.currency} As your Currency`);
-        await createUser({
-          name: inputData.name.trim(),
-          currency: inputData.currency.trim(),
+
+        if (!id || id === undefined) await loadUser();
+
+        await updateUser({
+          id,
+          name: inputData.name,
+          currency: inputData.currency,
           hasFinishedOnboarding: true,
         });
 

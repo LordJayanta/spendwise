@@ -9,13 +9,18 @@ interface Store extends User {
   // Actions
   toggleLoading: () => void;
 
-  loadUser: () => Promise<void>;
+  loadUser: () => void;
+
   createUser: ({
     name,
     currency,
     hasFinishedOnboarding,
   }: User) => Promise<void>;
+
+  updateUser: (user: User) => Promise<void>;
+
   setUserName: (id: User["id"], name: string) => Promise<void>;
+
   setCurrency: (id: User["id"], currency: string) => Promise<void>;
 }
 
@@ -29,9 +34,13 @@ export const useUserStore = create<Store>((set, get) => ({
   toggleLoading: () => set((state) => ({ isLoading: !state.isLoading })),
 
   loadUser: async () => {
-    const res = await sqlite.getUser();
+    try {
+      const res = await sqlite.getUser();
 
-    if (res) set({ ...res });
+      if (res) set({ ...res });
+    } catch (error) {
+      console.error("loadUser: ", error);
+    }
   },
 
   createUser: async ({
@@ -42,11 +51,20 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       const userdata = { name, currency, hasFinishedOnboarding };
 
-      const userId = await sqlite.creatUser(userdata);
+      const newUser = await sqlite.creatUser(userdata);
 
-      if (userId) set({ id: userId, ...userdata });
+      if (newUser) set({ ...newUser });
     } catch (error) {
       console.error("createUser: ", error);
+    }
+  },
+
+  updateUser: async (user: User) => {
+    try {
+      const updatedUser = await sqlite.updateUser(user);
+      if (updatedUser) set({ ...updatedUser });
+    } catch (error) {
+      console.error("updateUser: ", error);
     }
   },
 

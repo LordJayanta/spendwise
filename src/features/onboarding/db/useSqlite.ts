@@ -5,25 +5,82 @@ import { SQLiteRunResult } from "expo-sqlite";
 
 const creatUser = async ({ name, currency, hasFinishedOnboarding }: User) => {
   try {
-    await initDb();
-    const result = await db.insert(user).values({
-      name,
-      currency,
-      hasFinishedOnboarding,
-    });
+    // Check for required fields
+    if (!name || !currency) throw new Error("Missing required fields");
 
-    return result.lastInsertRowId;
+    await initDb();
+
+    // Check if user already exists
+    const existingUser: User[] = await db.select().from(user);
+
+    if (existingUser.length > 1) {
+      throw new Error("A User already exists. Only one user allowed.");
+    }
+
+    // create New user
+    const result: User[] = await db
+      .insert(user)
+      .values({
+        name,
+        currency,
+        hasFinishedOnboarding,
+      })
+      .returning();
+
+    return result[0];
   } catch (error) {
     console.error("createUser: ", error);
+  }
+};
+const updateUser = async ({
+  id,
+  name,
+  currency,
+  hasFinishedOnboarding,
+}: User) => {
+  try {
+    // Check for required fields
+    if (!id || !name || !currency || !hasFinishedOnboarding) {
+      throw new Error("Missing required fields");
+    }
+
+    await initDb();
+
+    const res: Required<User>[] = await db
+      .update(user)
+      .set({ name, currency, hasFinishedOnboarding })
+      .where(eq(user.id, id))
+      .returning();
+
+    return res[0];
+  } catch (error) {
+    console.error("updateUser: ", error);
   }
 };
 
 const getUser = async () => {
   try {
     await initDb();
+
+    // Check if user already exists
     const existingUser: User[] = await db.select().from(user);
 
-    return existingUser[0];
+    if (existingUser.length === 0) {
+      // throw new Error("No User found.");
+
+      // create Defult Guset User
+      const guestUser = await creatUser({
+        name: "Guest",
+        currency: "USD",
+        hasFinishedOnboarding: false,
+      });
+
+      if (!guestUser) throw new Error("Failed to create guest user.");
+
+      return guestUser;
+    }
+
+    return existingUser[existingUser.length - 1]; // return last user created user
   } catch (error) {
     console.error("getUser: ", error);
   }
@@ -65,6 +122,7 @@ const setCurrencyById = async (id: User["id"], currency: string) => {
 
 export const sqlite = {
   creatUser,
+  updateUser,
   getUser,
   setUserNameById,
   setCurrencyById,
