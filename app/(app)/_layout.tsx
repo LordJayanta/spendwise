@@ -5,21 +5,45 @@ import { useSettingStore } from "@/src/features/settings/store/useSettingStore";
 import { useTransactionStore } from "@/src/features/transactions/store/useTransactionStore";
 import PageLoader from "@/src/shared/components/page-loader";
 import { Redirect, Stack } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { AppState, AppStateStatus } from "react-native";
 
 export default function AppLayout() {
+    const appState = useRef(AppState.currentState);
+
     const { isLoading, loadDatabase } = useTransactionStore();
     const { hasFinishedOnboarding, loadUser } = useUserStore()
 
-    const { isUnlocked, toggleUnlock } = useLocalAuthStore();
-    const {isEnableBiometricAuth, loadSettings} = useSettingStore();
+    const { isUnlocked, toggleUnlock, lock } = useLocalAuthStore();
+    const { isEnableBiometricAuth, loadSettings } = useSettingStore();
 
     useEffect(() => {
         loadUser();
         loadDatabase();
         loadSettings();
-        if(isEnableBiometricAuth) toggleUnlock();
+        if (isEnableBiometricAuth) toggleUnlock();
     }, [loadDatabase, loadUser, loadSettings, toggleUnlock, isEnableBiometricAuth]);
+
+    useEffect(() => {
+        // Listen for App State changes
+        const subscription = AppState.addEventListener("change", (nextAppState: AppStateStatus) => {
+            console.log('AppState', nextAppState);
+
+            // If the app is going into the background or being closed
+            if (nextAppState.match(/(inactive|background)/)) {
+                console.log('App moved to background. Locking...');
+
+                if (isEnableBiometricAuth) lock(); // Set isUnlocked to false
+            }
+            appState.current = nextAppState;
+        })
+
+        return () => {
+            subscription.remove();
+        }
+
+    }, [isEnableBiometricAuth, lock]);
+    
 
     if (isLoading) return <PageLoader />;
     if (!isUnlocked && isEnableBiometricAuth) return <LockScreen />;
