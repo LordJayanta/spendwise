@@ -16,6 +16,8 @@ export const THEME = {
 
 export const COLORS = THEME.darkEmberTheme;
 
+export type Colors = typeof COLORS;
+
 // const darkEmberTheme ={
 //   "primary": {
 //     "50": "#E9F9EF",

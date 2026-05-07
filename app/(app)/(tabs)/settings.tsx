@@ -1,6 +1,7 @@
 import { commonStyles } from '@/assets/styles/common.style'
 import { settingsStyles } from '@/assets/styles/settings.style'
 import About from '@/src/features/settings/components/about'
+import DataSection from '@/src/features/settings/components/data-section'
 import Preferences from '@/src/features/settings/components/preferences'
 import Profile from '@/src/features/settings/components/profile'
 import Security from '@/src/features/settings/components/security'
@@ -25,6 +26,8 @@ export default function Settings() {
           <Preferences />
 
           <Security />
+
+          <DataSection />
 
           <About />
         </View>
