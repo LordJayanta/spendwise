@@ -45,6 +45,13 @@
           "ios": {}
         }
       ],
+      [
+        "expo-file-system",
+        {
+          "supportsOpeningDocumentsInPlace": true,
+          "enableFileSharing": true
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",

@@ -27,11 +27,8 @@ export default function AppLayout() {
     useEffect(() => {
         // Listen for App State changes
         const subscription = AppState.addEventListener("change", (nextAppState: AppStateStatus) => {
-            console.log('AppState', nextAppState);
-
             // If the app is going into the background or being closed
             if (nextAppState.match(/(inactive|background)/)) {
-                console.log('App moved to background. Locking...');
 
                 if (isEnableBiometricAuth) lock(); // Set isUnlocked to false
             }
