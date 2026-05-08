@@ -1,5 +1,6 @@
 import { Transaction } from "@/src/shared/db/schema";
 import { File, Paths } from "expo-file-system";
+import Papa from "papaparse";
 import { prepareCSVData } from "./prepare-csv-data";
 
 export const createCSVFile = (transactions: Transaction[]) => {
@@ -8,7 +9,12 @@ export const createCSVFile = (transactions: Transaction[]) => {
   /**
    * create csv data
    */
-  const data = prepareCSVData(transactions);
+  // const data = prepareCSVData(transactions);
+  const data =
+    Papa.unparse(transactions, {
+      header: true,
+    }) || prepareCSVData(transactions);
+
   if (!data) return;
 
   /**
