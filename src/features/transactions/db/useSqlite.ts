@@ -111,7 +111,7 @@ export const getTransactionById = async (id: number) => {
   }
 };
 
-// 3. UPDATE
+// 4. UPDATE
 export const updateTransactionById = async ({
   title,
   category,
@@ -148,12 +148,36 @@ export const deleteTransactionById = async (id: number) => {
   }
 };
 
+export const addBulkTransctions = async (bulkTransactions: Transaction[]) => {
+  try {
+    await initDb();
+    await db.insert(transactions).values(bulkTransactions);
+  } catch (error) {
+    console.error("addBulkTransctions: ", error);
+  }
+};
+
+export const deleteAllTransactions = async () => {
+  try {
+    await initDb();
+    await db.delete(transactions).run();
+  } catch (error) {
+    console.error("deleteAllTransactions: ", error);
+  }
+};
+
 export const sqlite = {
   db,
   getSummary,
+
   addTransaction,
+  addBulkTransctions,
+
   getAllTransactions,
   getTransactionById,
+
   updateTransactionById,
+
   deleteTransactionById,
+  deleteAllTransactions,
 };

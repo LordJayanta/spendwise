@@ -15,6 +15,8 @@ type Store = {
   addTransaction: (transaction: Transaction) => void;
   updateTransaction: (transaction: TransactionType) => void;
   deleteTransaction: (id: Transaction["id"]) => void;
+  addBulkTransctions: (transactions: Transaction[]) => void;
+  deleteAllTransactions: () => void;
 };
 
 export const useTransactionStore = create<Store>((set, get) => ({
@@ -115,6 +117,29 @@ export const useTransactionStore = create<Store>((set, get) => ({
       get().calculateSummary();
     } catch (error) {
       console.error("Failed to delete transaction: ", error);
+    }
+  },
+
+  addBulkTransctions: async (transactions: Transaction[]) => {
+    try {
+      await sqlite.addBulkTransctions(transactions);
+
+      set((state) => ({
+        transactions: [...transactions, ...state.transactions],
+      }));
+
+      get().calculateSummary();
+    } catch (error) {
+      console.error("Failed to add bulk transactions: ", error);
+    }
+  },
+
+  deleteAllTransactions: async () => {
+    try {
+      await sqlite.deleteAllTransactions();
+      set({ transactions: [] });
+    } catch (error) {
+      console.error("Failed to delete all transactions: ", error);
     }
   },
 }));
