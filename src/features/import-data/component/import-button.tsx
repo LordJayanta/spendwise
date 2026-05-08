@@ -10,10 +10,9 @@ import { useTransactionStore } from '../../transactions/store/useTransactionStor
 
 export default function ImportButton() {
 
-    const {addBulkTransctions} = useTransactionStore();
+    const { addBulkTransctions } = useTransactionStore();
     const importData = async () => {
         let fileData = undefined;
-        let csvFile = undefined;
 
         try {
             const doc: DocumentPicker.DocumentPickerResult = await DocumentPicker.getDocumentAsync({
@@ -43,19 +42,19 @@ export default function ImportButton() {
 
                 // Convert CSV-String to JSON-Object
                 if (fileData !== undefined) {
-                    const data = Papa.parse(fileData, {
-                        header: true
+                    Papa.parse(fileData, {
+                        header: true,
+                        complete: async (result) => {
+                            await addBulkTransctions(result?.data as Transaction[]);
+                            Alert.alert("Success", "Successfully imported data.");
+                        }
                     })
-                    
-                    csvFile = data;
                 }
             } catch (error) {
                 console.error("CSV Parse Error :", error);
                 Alert.alert("Failed", "Faile to parse CSV file. Try again. and choose a valid CSV file.");
             }
 
-            await addBulkTransctions(csvFile?.data as Transaction[]);
-            Alert.alert("Success", "Successfully imported data.");
 
         } catch (error) {
             console.error("Import Error :", error);
