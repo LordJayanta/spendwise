@@ -2,6 +2,7 @@ import { COLORS } from '@/src/shared/constant/colors';
 import { Ionicons, } from '@expo/vector-icons';
 import React from 'react';
 import { Image, ImageSourcePropType, Text, useWindowDimensions, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { style } from '../assets/styles/style';
 
 export type OnboardingData = {
@@ -24,28 +25,35 @@ export default function OnboardScreen({ data }: { data: OnboardingData }) {
         <View style={{
             flex: 1,
             backgroundColor: '#0E0E0D',
-            position: 'relative'
+            height: '100%'
         }}>
 
-            {/* Hero Section */}
-            <View style={style.heroContainer}>
-                <Text style={style.heroTitle}>{title}</Text>
-                <Text style={style.heroText}>{description}</Text>
-            </View>
+            <KeyboardAwareScrollView
+                keyboardShouldPersistTaps="handled"
+                enableOnAndroid
+                extraHeight={100}
+            >
 
-            <Image
-                source={image}
-                width={width}
-                height={imageHeight ? imageHeight : width}
-                style={[style.img, {
-                    width: width,
-                    height: imageHeight || width,
-                    resizeMode: 'contain'
-                }]}
-            />
+                {/* Hero Section */}
+                <View style={style.heroContainer}>
+                    <Text style={style.heroTitle}>{title}</Text>
+                    <Text style={style.heroText}>{description}</Text>
+                </View>
 
-            {form && <View>{form}</View>}
+                <Image
+                    source={image}
+                    width={width}
+                    height={imageHeight ? imageHeight : width}
+                    style={[style.img, {
+                        width: width,
+                        height: imageHeight || width,
+                        resizeMode: 'contain'
+                    }]}
+                />
 
+                {form && <View>{form}</View>}
+
+            </KeyboardAwareScrollView>
             {/* message */}
             <View style={{
                 paddingHorizontal: 34,
@@ -68,6 +76,7 @@ export default function OnboardScreen({ data }: { data: OnboardingData }) {
                     </View>
                 }
             </View>
+
         </View>
     )
 }

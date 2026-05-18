@@ -1,17 +1,16 @@
 import { commonStyles } from '@/assets/styles/common.style'
 import { createPageStyles } from '@/assets/styles/create.style'
 import CategoryItem from '@/src/features/transactions/components/category-item'
+import { CATEGORIES, CategoryKey } from '@/src/features/transactions/constant/Category'
+import { useTransactionStore } from '@/src/features/transactions/store/useTransactionStore'
 import { COLORS } from '@/src/shared/constant/colors'
+import { Transaction } from '@/src/shared/db/schema'
+import { formatDisplayDate, formatDisplayTime } from '@/src/shared/utils/formatTime'
 import { Ionicons } from '@expo/vector-icons'
 import { router, useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
-
-import { CATEGORIES, CategoryKey } from '@/src/features/transactions/constant/Category'
-import { useTransactionStore } from '@/src/features/transactions/store/useTransactionStore'
-import { Transaction } from '@/src/shared/db/schema'
-import { formatDisplayDate, formatDisplayTime } from '@/src/shared/utils/formatTime'
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function Create() {
 
@@ -85,137 +84,145 @@ export default function Create() {
     }
     loadData()
   }, [id, transactions])
+
   return (
     <View style={createPageStyles.container}>
-      {/* TAB */}
-      <View style={createPageStyles.TabContainer}>
-        <View style={createPageStyles.TabLeftContainer}>
-          <TouchableOpacity onPress={() => router.push("/")}>
-            <Ionicons name="arrow-back" color={COLORS.text} size={20} />
-          </TouchableOpacity>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        enableOnAndroid
+        extraHeight={100}
+      >
 
-          <View>
-            <Text style={createPageStyles.TabText}>Create Transaction</Text>
-
-            <View style={createPageStyles.dateContainer}>
-              <View>
-                <Ionicons name="calendar-outline" color={COLORS.text} size={18} />
-              </View>
-              <View style={createPageStyles.timeContainer}>
-                <Text style={createPageStyles.subText}>{formatDisplayDate(selectedDate)}</Text>
-                <View style={createPageStyles.dot}>
-                  <Ionicons name="ellipse" color={COLORS.text} size={4.75} />
-                </View>
-                <Text style={createPageStyles.subText}>{formatDisplayTime(selectedDate)}</Text>
-              </View>
-            </View>
-
-          </View>
-
-        </View>
-        <TouchableOpacity onPress={() => handleAddTransaction()}>
-          <Text style={[commonStyles.clickableBtn, { textTransform: "uppercase" }]}>Save</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* MAIN */}
-      <ScrollView>
-        <View style={{ display: 'flex', flexDirection: 'column', gap: 24, position: 'relative' }}>
-
-          {/* Hero */}
-          <View style={createPageStyles.heroContainer}>
-            <View style={createPageStyles.heroContainerHeading}>
-              <Text style={createPageStyles.heroContainerHeadingText}>AMOUNT</Text>
-            </View>
-
-            <View style={createPageStyles.heroInputContainer}>
-              <Text style={{ color: COLORS.primary, fontSize: 32 }}>$</Text>
-              <TextInput
-                placeholder='0'
-                style={[createPageStyles.heroInput]}
-                placeholderTextColor={COLORS.text}
-                cursorColor={COLORS.primary}
-                maxLength={8}
-                keyboardType="numeric"
-                value={Amount}
-                onChangeText={(text) => setAmount(text.replace(/[^0-9]/g, ''))} // remove non-numeric characters
-              />
-            </View>
-          </View>
-
-          {/* Category */}
-          <View style={createPageStyles.CategoryContainer}>
-            <View style={createPageStyles.CategoryHeader}>
-              <Text style={createPageStyles.CategoryHeaderText}>Category</Text>
-            </View>
-
-            <ScrollView
-              contentContainerStyle={createPageStyles.categoryContainer}
-              horizontal
-              // style={createPageStyles.categoryContainer}
-              showsHorizontalScrollIndicator={false}
-            >
-              {CATEGORIES.map((category) => (
-                <TouchableOpacity key={category.id} onPress={() => setSelectedCategory(category.id)}>
-                  <CategoryItem
-                    active={category.id === SelectedCategory}
-                    name={category.name}
-                    icon={category.icon}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-
-          {/* Description */}
-          <View style={createPageStyles.descriptionWrapper}>
-
-            {/* Title */}
-            <View style={createPageStyles.descriptionContainer}>
-              <View style={createPageStyles.descriptionLable}>
-                <Ionicons name="pencil-sharp" color={COLORS.primary} size={15} />
-                <Text style={createPageStyles.descriptionLableText}>Title</Text>
-              </View>
-              <TextInput
-                placeholder='Title? What was for did ?'
-                placeholderTextColor={'#C4C5D9'}
-                style={{ color: '#C4C5D9' }}
-                cursorColor={COLORS.primary}
-                maxLength={20}
-                value={Title}
-                onChangeText={setTitle}
-              />
-            </View>
-
-            {/* Note */}
-            <View style={createPageStyles.descriptionContainer}>
-              <View style={createPageStyles.descriptionLable}>
-                <Ionicons name="pencil-sharp" color={COLORS.primary} size={15} />
-                <Text style={createPageStyles.descriptionLableText}>Note (Optional)</Text>
-              </View>
-              <TextInput
-                placeholder='Note Of your Transaction ? (Optional)'
-                style={{ color: '#C4C5D9' }}
-                placeholderTextColor={'#C4C5D9'}
-                cursorColor={COLORS.primary}
-                maxLength={20}
-                value={Note}
-                onChangeText={setNote}
-              />
-            </View>
-
-          </View>
-
-
-          <View style={createPageStyles.createButtonContainer}>
-            <TouchableOpacity style={commonStyles.primaryButton} onPress={() => handleAddTransaction()}>
-              <Text style={[commonStyles.clickableBtn, { textTransform: "uppercase", color: COLORS.light }]}>Save</Text>
+        {/* TAB */}
+        <View style={createPageStyles.TabContainer}>
+          <View style={createPageStyles.TabLeftContainer}>
+            <TouchableOpacity onPress={() => router.push("/")}>
+              <Ionicons name="arrow-back" color={COLORS.text} size={20} />
             </TouchableOpacity>
+
+            <View>
+              <Text style={createPageStyles.TabText}>Create Transaction</Text>
+
+              <View style={createPageStyles.dateContainer}>
+                <View>
+                  <Ionicons name="calendar-outline" color={COLORS.text} size={18} />
+                </View>
+                <View style={createPageStyles.timeContainer}>
+                  <Text style={createPageStyles.subText}>{formatDisplayDate(selectedDate)}</Text>
+                  <View style={createPageStyles.dot}>
+                    <Ionicons name="ellipse" color={COLORS.text} size={4.75} />
+                  </View>
+                  <Text style={createPageStyles.subText}>{formatDisplayTime(selectedDate)}</Text>
+                </View>
+              </View>
+
+            </View>
+
           </View>
-
+          <TouchableOpacity onPress={() => handleAddTransaction()}>
+            <Text style={[commonStyles.clickableBtn, { textTransform: "uppercase" }]}>Save</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
 
+        {/* MAIN */}
+        <ScrollView>
+          <View style={{ display: 'flex', flexDirection: 'column', gap: 24, position: 'relative' }}>
+
+            {/* Hero */}
+            <View style={createPageStyles.heroContainer}>
+              <View style={createPageStyles.heroContainerHeading}>
+                <Text style={createPageStyles.heroContainerHeadingText}>AMOUNT</Text>
+              </View>
+
+              <View style={createPageStyles.heroInputContainer}>
+                <Text style={{ color: COLORS.primary, fontSize: 32 }}>$</Text>
+                <TextInput
+                  placeholder='0'
+                  style={[createPageStyles.heroInput]}
+                  placeholderTextColor={COLORS.text}
+                  cursorColor={COLORS.primary}
+                  maxLength={8}
+                  keyboardType="numeric"
+                  value={Amount}
+                  onChangeText={(text) => setAmount(text.replace(/[^0-9]/g, ''))} // remove non-numeric characters
+                />
+              </View>
+            </View>
+
+            {/* Category */}
+            <View style={createPageStyles.CategoryContainer}>
+              <View style={createPageStyles.CategoryHeader}>
+                <Text style={createPageStyles.CategoryHeaderText}>Category</Text>
+              </View>
+
+              <ScrollView
+                contentContainerStyle={createPageStyles.categoryContainer}
+                horizontal
+                // style={createPageStyles.categoryContainer}
+                showsHorizontalScrollIndicator={false}
+              >
+                {CATEGORIES.map((category) => (
+                  <TouchableOpacity key={category.id} onPress={() => setSelectedCategory(category.id)}>
+                    <CategoryItem
+                      active={category.id === SelectedCategory}
+                      name={category.name}
+                      icon={category.icon}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* Description */}
+            <View style={createPageStyles.descriptionWrapper}>
+
+              {/* Title */}
+              <View style={createPageStyles.descriptionContainer}>
+                <View style={createPageStyles.descriptionLable}>
+                  <Ionicons name="pencil-sharp" color={COLORS.primary} size={15} />
+                  <Text style={createPageStyles.descriptionLableText}>Title</Text>
+                </View>
+                <TextInput
+                  placeholder='Title? What was for did ?'
+                  placeholderTextColor={'#C4C5D9'}
+                  style={{ color: '#C4C5D9' }}
+                  cursorColor={COLORS.primary}
+                  maxLength={20}
+                  value={Title}
+                  onChangeText={setTitle}
+                />
+              </View>
+
+              {/* Note */}
+              <View style={createPageStyles.descriptionContainer}>
+                <View style={createPageStyles.descriptionLable}>
+                  <Ionicons name="pencil-sharp" color={COLORS.primary} size={15} />
+                  <Text style={createPageStyles.descriptionLableText}>Note (Optional)</Text>
+                </View>
+                <TextInput
+                  placeholder='Note Of your Transaction ? (Optional)'
+                  style={{ color: '#C4C5D9' }}
+                  placeholderTextColor={'#C4C5D9'}
+                  cursorColor={COLORS.primary}
+                  maxLength={20}
+                  value={Note}
+                  onChangeText={setNote}
+                />
+              </View>
+
+            </View>
+
+
+            <View style={createPageStyles.createButtonContainer}>
+              <TouchableOpacity style={commonStyles.primaryButton} onPress={() => handleAddTransaction()}>
+                <Text style={[commonStyles.clickableBtn, { textTransform: "uppercase", color: COLORS.light }]}>Save</Text>
+              </TouchableOpacity>
+            </View>
+
+          </View>
+        </ScrollView>
+
+      </KeyboardAwareScrollView>
     </View>
   )
 }
