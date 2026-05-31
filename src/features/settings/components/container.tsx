@@ -7,12 +7,14 @@ import { StyleSheet, Text, View } from 'react-native'
 type Props = {
   iconName: IoniconsName;
   title: string;
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  transparent?: boolean
 }
 export default function Container({
   iconName,
   title,
-  children
+  children,
+  transparent
 }: Props) {
   return (
     <View style={styles.section}>
@@ -21,7 +23,7 @@ export default function Container({
         <Text style={styles.title}>{title}</Text>
       </View>
 
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: transparent ? 'transparent' : COLORS.surface }]}>
         {children}
       </View>
     </View>
@@ -49,6 +51,5 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 16,
-    backgroundColor: COLORS.surface
   }
 })

@@ -7,7 +7,7 @@ import Container from './container'
 
 export default function DataSection() {
   return (
-    <Container iconName={'cloud-download-outline'} title='Data'>
+    <Container iconName={'cloud-download-outline'} title='Data' transparent>
       <View style={styles.container}>
         <ExportButton />
         <ImportButton />

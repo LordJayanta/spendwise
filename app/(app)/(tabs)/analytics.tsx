@@ -3,11 +3,9 @@ import { commonStyles } from '@/assets/styles/common.style'
 import { BarChartSection } from '@/src/features/analytics/components/BarChartSection'
 import { PieCharSection } from '@/src/features/analytics/components/PieCharSection'
 import { useTransactionStore } from '@/src/features/transactions/store/useTransactionStore'
-import { COLORS } from '@/src/shared/constant/colors'
-import { Ionicons } from '@expo/vector-icons'
-import { router } from 'expo-router'
+import Tab from '@/src/shared/components/tab'
 import React from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 
 const Analytics = () => {
   const { summary } = useTransactionStore();
@@ -15,14 +13,7 @@ const Analytics = () => {
   return (
     <View style={[commonStyles.baseScreen]}>
       {/* Header Tab*/}
-      <View style={analyticsStyles.TabContainer}>
-        <View style={analyticsStyles.TabLeftContainer}>
-          <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name="arrow-back" color={COLORS.text} size={20} />
-          </TouchableOpacity>
-          <Text style={analyticsStyles.TabText}>Analytics</Text>
-        </View>
-      </View>
+      <Tab title='Analytics' avater />
 
 
       <ScrollView style={{ flex: 1 }}>

@@ -2,25 +2,6 @@ import { COLORS } from "@/src/shared/constant/colors";
 import { StyleSheet } from "react-native";
 
 export const analyticsStyles = StyleSheet.create({
-  TabContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-  },
-  TabLeftContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 24,
-  },
-  TabText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: COLORS.light,
-  },
   Section: {
     paddingHorizontal: 24,
     paddingVertical: 16,
