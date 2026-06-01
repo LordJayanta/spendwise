@@ -28,7 +28,7 @@ export const checkBiometricAuth = async () => {
 
   if (hasHardware && isEnrolled && authType) {
     return await LocalAuthentication.authenticateAsync({
-      promptMessage: "Authenticate to Unlock SpendWise",
+      promptMessage: "Authenticate to Unlock openspent",
       cancelLabel: "Cancel",
       fallbackLabel: "Use Password",
       disableDeviceFallback: false,

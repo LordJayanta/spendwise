@@ -21,7 +21,7 @@ export default function ImportButton() {
 
             /**
              * A Demo response
-             * {"assets": [{"lastModified": 1778228878000, "mimeType": "text/comma-separated-values", "name": "spendwise-backup-2026-05-08-082727.csv", "size": 186, "uri": "file:///data/user/0/host.exp.exponent/cache/DocumentPicker/c99a75a0-f29c-4c8f-ab5f-99c446636f3b.csv"}], "canceled": false}
+             * {"assets": [{"lastModified": 1778228878000, "mimeType": "text/comma-separated-values", "name": "openspent-backup-2026-05-08-082727.csv", "size": 186, "uri": "file:///data/user/0/host.exp.exponent/cache/DocumentPicker/c99a75a0-f29c-4c8f-ab5f-99c446636f3b.csv"}], "canceled": false}
              */
 
             if (doc.canceled) {

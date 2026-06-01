@@ -26,7 +26,7 @@ export const createCSVFile = (transactions: Transaction[]) => {
     .replaceAll(":", "")
     .split(".")[0];
 
-  const fileName = `spendwise-backup-${dateTime}.csv`;
+  const fileName = `openspent-backup-${dateTime}.csv`;
 
   /**
    * create csv file

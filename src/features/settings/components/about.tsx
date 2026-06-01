@@ -16,17 +16,17 @@ const Links: Link[] = [
     {
         text: 'Privacy Policy',
         iconName: 'shield-half',
-        herf: 'https://github.com/LordJayanta/spendwise'
+        herf: 'https://github.com/LordJayanta/openspent'
     },
     {
         text: 'Terms of Service',
         iconName: 'document-text-outline',
-        herf: 'https://github.com/LordJayanta/spendwise'
+        herf: 'https://github.com/LordJayanta/openspent'
     },
     {
         text: 'Github',
         iconName: 'logo-github',
-        herf: 'https://github.com/LordJayanta/spendwise'
+        herf: 'https://github.com/LordJayanta/openspent'
     }
 ]
 
