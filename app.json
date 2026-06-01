@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "SpendWise",
-    "slug": "spendwise",
-    "version": "0.4.0",
+    "name": "OpenSpent",
+    "slug": "openspent",
+    "version": "1.0.0-dev",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "spendwise",
+    "scheme": "openspent",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.lordjayanta.spendwise",
+      "bundleIdentifier": "com.lordjayanta.openspent",
       "jsEngine": "hermes",
       "buildNumber": "1",
       "infoPlist": {
@@ -18,7 +18,7 @@
       }
     },
     "android": {
-      "package": "com.lordjayanta.spendwise",
+      "package": "com.lordjayanta.openspent",
       "jsEngine": "hermes",
       "adaptiveIcon": {
         "backgroundColor": "#121212",
@@ -27,7 +27,12 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.INTERNET"
+      ]
     },
     "web": {
       "output": "static",
@@ -40,7 +45,8 @@
           "android": {
             "enableProguardInReleaseBuilds": true,
             "enableShrinkResourcesInReleaseBuilds": true,
-            "useLegacyPackaging": true
+            "useLegacyPackaging": true,
+            "enableMinifyInReleaseBuilds": true
           },
           "ios": {}
         }
@@ -198,8 +204,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "22d2f83f-874c-4d59-8d9e-749daf243f6b"
+        "projectId": "40f93cfd-2361-40a9-8852-1c7b298c7686"
       }
-    }
+    },
+    "owner": "lordjayanta"
   }
 }

@@ -1,29 +1,31 @@
-# SpendWise 🪙
+# OpenSpent 🪙 || (formerly SpendWise)
 
-**A professional, offline-first personal finance tracker built with React Native and Expo.**
+**A professional, offline-first personal finance tracker built with React Native and Expo. (Formerly SpendWise)**
 
-![Version](https://img.shields.io/badge/version-0.4.0--stable-green)
+![Version](https://img.shields.io/badge/version-1.0.0--dev-orange)
 ![Size](https://img.shields.io/badge/APK--Size-45.6MB-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Android-green)
 
-SpendWise is a lightweight, secure expense manager designed to give you full control over your financial data. Built with a focus on performance and reliability, it stores everything locally on your device—no cloud, no tracking, just your data.
+OpenSpent is a lightweight, secure expense manager designed to give you full control over your financial data. Built with a focus on performance and reliability, it stores everything locally on your device—no cloud, no tracking, just your data.
 
-> ⚠️ **IMPORTANT NOTICE: The Road to v1.0.0**  
-> v0.4.0 is the final release under the "SpendWise" name. We are currently undergoing a massive UI/UX overhaul and rebranding the project to **OpenSpent** for our v1.0.0 production launch. Please use the new **CSV Export** feature in this version to backup your data so you can import it into the new app when it launches!
+> 🚀 **WELCOME TO OPENSPENT (formerly SpendWise)**  
+> This project has officially been rebranded from **SpendWise** to **OpenSpent**! We are currently in active development for the **v1.0.0 Production Launch**, which includes a massive UI/UX overhaul.
+>
+> _If you are an existing user looking for the final legacy SpendWise app, you can still download [v0.4.0 from the Releases page](https://github.com/LordJayanta/openspent/releases/tag/v0.4.0). You can use the CSV Export feature in v0.4.0 to migrate your data to OpenSpent once v1.0.0 is released!_
 
 ---
 
-## ✨ Key Features (v0.4.0 - The "Feature Complete" Update)
+## ✨ Key Features (v1.0.0-dev)
 
-- 🔒 **Biometric Security (New)**: Hardware-level app locking using FaceID or Fingerprint (`expo-local-authentication`), featuring background-to-foreground AppState monitoring.
-- 📁 **Data Portability (New)**: Complete CSV Export and Import using `PapaParse`. Your data belongs to you.
-- 👋 **User Onboarding (New)**: A smooth, swipable tutorial and guest profile setup using `react-native-pager-view`.
-- 🧭 **Tab Navigation (New)**: Upgraded architecture to a modular Tab-based navigation system for seamless user flow.
+- 🔒 **Biometric Security**: Hardware-level app locking using FaceID or Fingerprint (`expo-local-authentication`), featuring background-to-foreground AppState monitoring.
+- 📁 **Data Portability**: Complete CSV Export and Import using `PapaParse`. Your data belongs to you.
+- 👋 **User Onboarding**: A smooth, swipable tutorial and guest profile setup using `react-native-pager-view`.
+- 🧭 **Tab Navigation**: Modular Tab-based navigation system for seamless user flow.
 - 📈 **Visual Analytics**: Beautiful, interactive **Pie Charts** to visualize spending habits by category.
 - 🏦 **Local Persistence**: Powered by **SQLite** with **Drizzle ORM** for industrial-grade data reliability.
 - ⚡ **Advanced State Management**: Optimized **Zustand** store for lightning-fast global state synchronization.
-- ⚙️ **Production Optimized**: Keyboard-aware scrolling, ProGuard shrinking, and debug log stripping for a high-performance ~38MB footprint.
+- ⚙️ **Production Optimized**: Keyboard-aware scrolling, ProGuard shrinking, and debug log stripping for a high-performance footprint.
 
 ---
 
@@ -42,22 +44,22 @@ SpendWise is a lightweight, secure expense manager designed to give you full con
 
 ## 📦 Installation & Use
 
-### For Users
+### For Users (Stable Legacy Release)
 
-You can download the final release(SpendWise) APK directly to your Android device:
+You can download the final legacy SpendWise APK directly to your Android device:
 
-1. Go to the [Releases](https://github.com/LordJayanta/spendwise/releases) page.
+1. Go to the [Releases](https://github.com/LordJayanta/openspent/releases) page.
 2. Download `SpendWise_v0.4.0.apk`.
-3. Install the APK on your phone (you may need to allow "Install from Unknown Sources").
+3. Install the APK on your phone. _(The official OpenSpent v1.0.0 APK is coming soon!)_
 
-### For Developers
+### For Developers (Current Dev Branch)
 
-To run this project locally:
+To run the new OpenSpent project locally:
 
 1. **Clone the repo:**
    ```bash
-   git clone https://github.com/LordJayanta/spendwise.git
-   cd spendwise
+   git clone https://github.com/LordJayanta/openspent.git
+   cd openspent
    ```
 2. **Install dependencies:**
    ```bash
@@ -89,4 +91,4 @@ Distributed under the **Apache License 2.0**. See `LICENSE` for more information
 > Maintained by LordJayanta
 
 **LordJayanta** - [@GitHub](https://github.com/LordJayanta)  
-Project Link: [https://github.com/LordJayanta/spendwise](https://github.com/LordJayanta/spendwise)
+Project Link: [https://github.com/LordJayanta/openspent](https://github.com/LordJayanta/openspent)

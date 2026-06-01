@@ -1,4 +1,4 @@
-# 🚀 SpendWise: The Developer Cheatsheet
+# 🚀 OpenSpent (formerly SpendWise): The Developer Cheatsheet
 
 ## 📚 1. Conventional Commits (The "Language" of Pros)
 
