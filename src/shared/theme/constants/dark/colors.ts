@@ -1,4 +1,4 @@
-export const COLORES = {
+export const COLORS = {
   primary: {
     "400": "#5EE04F", // Hover states
     "500": "#7CFF6B", // Main action color

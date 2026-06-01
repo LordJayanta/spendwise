@@ -1,11 +1,11 @@
-import { COLORES } from "./colors/dark.colors";
-import { TYPOGRAPHY } from "./constants/typography";
+import { TYPOGRAPHY } from "../../shared/typography";
+import { COLORS } from "./colors";
 
 const meta = {
   name: "dark",
-  theme: "dark",
+  themeId: "dark",
   version: "1.0.0",
 };
 
-export { COLORES, meta, TYPOGRAPHY };
+export { COLORS, meta, TYPOGRAPHY };
 
